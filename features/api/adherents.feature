@@ -219,6 +219,7 @@ Feature:
         "detail": "nickname: Cette valeur est déjà utilisée.",
         "violations": [
             {
+                "code": "@uuid@",
                 "propertyPath": "nickname",
                 "message": "Cette valeur est déjà utilisée."
             }
@@ -246,6 +247,7 @@ Feature:
         "detail": "nickname: Vous devez saisir au maximum 25 caractères.",
         "violations": [
             {
+                "code": "@uuid@",
                 "propertyPath": "nickname",
                 "message": "Vous devez saisir au maximum 25 caractères."
             }
