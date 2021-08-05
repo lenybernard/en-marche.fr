@@ -130,6 +130,11 @@ class Driver implements LoggerAwareInterface
         ]);
     }
 
+    public function createDynamicSegment(string $name, string $listId, EditSegementRequest $request): ResponseInterface
+    {
+        return $this->send('POST', sprintf('/lists/%s/segments', $listId), $request->toArray());
+    }
+
     public function deleteStaticSegment(int $id): bool
     {
         return $this->sendRequest('DELETE', sprintf('/lists/%s/segments/%d', $this->listId, $id));

@@ -21,7 +21,7 @@ class SegmentConditionsBuilder
         $this->builders = $builders;
     }
 
-    public function build(MailchimpCampaign $campaign): array
+    public function buildFromMC(MailchimpCampaign $campaign): array
     {
         $message = $campaign->getMessage();
         $filter = $message->getFilter();
@@ -34,7 +34,7 @@ class SegmentConditionsBuilder
 
         foreach ($this->builders as $builder) {
             if ($builder->support($filter)) {
-                $conditions = array_merge($conditions, $builder->build($campaign));
+                $conditions = array_merge($conditions, $builder->buildFromMC($campaign));
                 $built = true;
             }
         }
@@ -49,6 +49,33 @@ class SegmentConditionsBuilder
                 'match' => 'all',
                 'conditions' => $conditions ?? [],
             ],
+        ];
+    }
+
+    public function buildFromSegment(MailchimpCampaign $campaign): array
+    {
+        $filter = $message->getFilter();
+
+        if (!$filter) {
+            throw new \InvalidArgumentException('Filter is null');
+        }
+
+        $conditions = [];
+
+        foreach ($this->builders as $builder) {
+            if ($builder->support($filter)) {
+                $conditions = array_merge($conditions, $builder->buildFromFilter($filter));
+                $built = true;
+            }
+        }
+
+        if (!isset($built)) {
+            throw new \RuntimeException(sprintf('Any builder was found for the filter class: %s', \get_class($filter)));
+        }
+
+        return [
+            'match' => 'all',
+            'conditions' => $conditions ?? [],
         ];
     }
 
