@@ -178,10 +178,6 @@ services:
     App\Normalizer\JecouteRegionNormalizer:
         tags: [{name: 'serializer.normalizer', priority: 1}]
 
-    App\Normalizer\ItemNormalizerDecorator:
-        decorates: 'api_platform.serializer.normalizer.item'
-        arguments: ['@App\Normalizer\ItemNormalizerDecorator.inner']
-
     App\Normalizer\Indexer\ThrowExceptionNormalizer:
         tags: [{name: 'serializer.normalizer', priority: -801}] # to be just after CustomNormalizer
 

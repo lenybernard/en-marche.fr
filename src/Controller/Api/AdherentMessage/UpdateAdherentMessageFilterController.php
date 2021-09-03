@@ -5,6 +5,7 @@ namespace App\Controller\Api\AdherentMessage;
 use App\AdherentMessage\AdherentMessageManager;
 use App\AdherentMessage\Filter\FilterFactory;
 use App\Entity\AdherentMessage\AbstractAdherentMessage;
+use App\Entity\AdherentMessage\Filter\AbstractAdherentMessageFilter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -45,11 +46,15 @@ class UpdateAdherentMessageFilterController extends AbstractController
             $filter = FilterFactory::create($adherent, $data->getType());
         }
 
-        $this->serializer->deserialize($request->getContent(), \get_class($filter), JsonEncoder::FORMAT, [
+//        $request->attributes->set('_api_resource_class', get_class($filter));
+
+        $this->serializer->deserialize($request->getContent(), get_class($filter), JsonEncoder::FORMAT, [
             AbstractNormalizer::OBJECT_TO_POPULATE => $filter,
             AbstractNormalizer::GROUPS => ['adherent_message_update_filter'],
+//            'resource_class' => get_class($filter),
         ]);
 
+        dd($filter);
         $errors = $this->validator->validate($filter);
 
         if ($errors->count()) {

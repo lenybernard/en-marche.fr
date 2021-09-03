@@ -19,6 +19,7 @@ class CauseFromUuidDenormalizer implements DenormalizerInterface
 
     public function denormalize($data, $type, $format = null, array $context = [])
     {
+        dd($data, $type, $format, $context);
         /** @var Cause $cause */
         if ($cause = $this->repository->findOneByUuid($data)) {
             return $cause;

@@ -85,7 +85,6 @@ use Symfony\Component\Validator\Constraints as Assert;
  *             "path": "/v3/adherent_messages/{uuid}/filter",
  *             "method": "PUT",
  *             "requirements": {"uuid": "%pattern_uuid%"},
- *             "defaults": {"_api_receive": false},
  *             "controller": "App\Controller\Api\AdherentMessage\UpdateAdherentMessageFilterController"
  *         },
  *     }
