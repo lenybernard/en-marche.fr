@@ -4,9 +4,9 @@ namespace App\Controller\EnMarche;
 
 use App\Address\GeoCoder;
 use App\Entity\Adherent;
-use App\Entity\NewsletterSubscription;
 use App\Exception\SitemapException;
-use App\Form\NewsletterSubscriptionType;
+use App\Form\NewsletterConfirmSubscriptionType;
+use App\Newsletter\NewsletterSubscription;
 use App\Repository\HomeBlockRepository;
 use App\Repository\LiveLinkRepository;
 use App\Sitemap\SitemapFactory;
@@ -39,7 +39,10 @@ class HomeController extends AbstractController
         return $this->render('home/index.html.twig', [
             'blocks' => $homeBlockRepository->findHomeBlocks(),
             'live_links' => $linkRepository->findHomeLiveLinks(),
-            'newsletter_form' => $this->createForm(NewsletterSubscriptionType::class, $newsletterSubscription)->createView(),
+            'newsletter_form' => $this->createForm(NewsletterConfirmSubscriptionType::class, $newsletterSubscription, [
+                'action' => $this->generateUrl('newsletter_inscription_newsletter'),
+                'method' => 'GET',
+            ])->createView(),
         ]);
     }
 

@@ -5,19 +5,23 @@ namespace App\Controller\EnMarche;
 use App\Address\GeoCoder;
 use App\Controller\CanaryControllerTrait;
 use App\Entity\NewsletterSubscription;
+use App\Form\NewsletterConfirmSubscriptionType;
 use App\Form\NewsletterInvitationType;
 use App\Form\NewsletterSubscriptionType;
 use App\Form\NewsletterUnsubscribeType;
 use App\Newsletter\Invitation;
 use App\Newsletter\NewsletterInvitationHandler;
+use App\Newsletter\NewsletterSubscription as NewsletterSubscriptionDto;
 use App\Newsletter\NewsletterSubscriptionHandler;
 use App\Repository\NewsletterSubscriptionRepository;
+use GuzzleHttp\Exception\ConnectException;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\PreconditionFailedHttpException;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 class NewsletterController extends AbstractController
 {
@@ -71,6 +75,47 @@ class NewsletterController extends AbstractController
         }
 
         return $this->render('newsletter/subscription.html.twig', [
+            'form' => $form->createView(),
+        ]);
+    }
+
+    /**
+     * @Route("/newsletter/inscription-newsletter", name="newsletter_inscription_newsletter", methods={"GET", "POST"})
+     */
+    public function subscriptionFormConfirmationAction(
+        Request $request,
+        GeoCoder $geoCoder,
+        NewsletterSubscriptionHandler $newsletterSubscriptionHandler,
+        TranslatorInterface $translator
+    ): Response {
+        $subscription = NewsletterSubscriptionDto::createWithCaptcha(
+            $geoCoder->getCountryCodeFromIp($request->getClientIp()),
+            $request->request->get('g-recaptcha-response')
+        );
+
+        if ($queryData = $request->query->get('app_newsletter_subscription')) {
+            $subscription->setEmail($queryData['email']);
+            $subscription->setPostalCode($queryData['postalCode']);
+            $subscription->setCountry($queryData['country']);
+            $subscription->setPersonalDataCollection($queryData['personalDataCollection']);
+        }
+
+        $form = $this
+            ->createForm(NewsletterConfirmSubscriptionType::class, $subscription)
+            ->handleRequest($request)
+        ;
+
+        try {
+            if ($form->isSubmitted() && $form->isValid()) {
+                $newsletterSubscriptionHandler->subscribe(NewsletterSubscription::createFromDto($form->getData()));
+
+                return $this->redirectToRoute('app_newsletter_subscription_mail_sent');
+            }
+        } catch (ConnectException $e) {
+            $this->addFlash('error_recaptcha', $translator->trans('recaptcha.error'));
+        }
+
+        return $this->render('newsletter/confirm_subscription.html.twig', [
             'form' => $form->createView(),
         ]);
     }

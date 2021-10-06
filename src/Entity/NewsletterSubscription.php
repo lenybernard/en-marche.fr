@@ -202,4 +202,9 @@ class NewsletterSubscription implements EntitySoftDeletedInterface
     {
         $this->token = $token;
     }
+
+    public static function createFromDto(\App\Newsletter\NewsletterSubscription $newsletterSubscription): self
+    {
+        return new self($newsletterSubscription->email, $newsletterSubscription->postalCode, $newsletterSubscription->country);
+    }
 }
