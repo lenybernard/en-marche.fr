@@ -61,7 +61,8 @@ Feature:
       "OK"
     """
 
-  Scenario Outline: As a logged-in (delegated) referent I can retrive my messages
+  @debug
+  Scenario Outline: As a logged-in (delegated) referent I can retrieve my messages
     Given I am logged with "<user>" via OAuth client "Data-Corner"
     When I send a "GET" request to "/api/v3/adherent_messages?scope=<scope>"
     Then the response status code should be 200

@@ -16,7 +16,8 @@ final class Version20190702152205 extends AbstractMigration
         $this->addSql('CREATE TABLE chez_vous_measures (id INT UNSIGNED AUTO_INCREMENT NOT NULL, city_id INT UNSIGNED NOT NULL, type VARCHAR(255) NOT NULL, payload JSON DEFAULT NULL COMMENT \'(DC2Type:json_array)\', INDEX IDX_E6E8973E8BAC62AF (city_id), UNIQUE INDEX chez_vous_measures_city_type_unique (city_id, type), PRIMARY KEY(id)) DEFAULT CHARACTER SET UTF8 COLLATE UTF8_unicode_ci ENGINE = InnoDB');
         $this->addSql('ALTER TABLE chez_vous_departments ADD CONSTRAINT FK_29E7DD5798260155 FOREIGN KEY (region_id) REFERENCES chez_vous_regions (id) ON DELETE CASCADE');
         $this->addSql('ALTER TABLE chez_vous_markers ADD CONSTRAINT FK_452F890F8BAC62AF FOREIGN KEY (city_id) REFERENCES chez_vous_cities (id) ON DELETE CASCADE');
-        $this->addSql('ALTER TABLE chez_vous_cities ADD CONSTRAINT FK_A42D9BEDAE80F5DF FOREIGN KEY (department_id) REFERENCES chez_vous_departments (id) ON DELETE CASCADE');
+        $this->addSql('ALTER TABLE chez_vous_cities 
+ADD CONSTRAINT FK_A42D9BEDAE80F5DF FOREIGN KEY (department_id) REFERENCES chez_vous_departments (id) ON DELETE CASCADE');
         $this->addSql('ALTER TABLE chez_vous_measures ADD CONSTRAINT FK_E6E8973E8BAC62AF FOREIGN KEY (city_id) REFERENCES chez_vous_cities (id) ON DELETE CASCADE');
     }
 

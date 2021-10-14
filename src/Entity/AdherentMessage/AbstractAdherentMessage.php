@@ -51,10 +51,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  *     collectionOperations={
  *         "get": {
  *             "path": "/v3/adherent_messages",
- *             "normalization_context": {
- *                 "authored_items_collection": false,
- *                 "groups": {"message_read_list"}
- *             },
+ *             "access_control": "is_granted('HAS_FEATURE_MESSAGE')",
  *         },
  *         "post": {
  *             "path": "/v3/adherent_messages",
