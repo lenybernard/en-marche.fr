@@ -319,12 +319,23 @@ Feature:
     When I send a "GET" request to "/api/events/0e5f9f02-fa33-4c2c-a700-4235d752315b"
     Then the response status code should be 200
 
-  Scenario: As a non logged-in user I can not get not published event
+  Scenario: As a non logged-in user I cannot get not published event
     When I send a "GET" request to "/api/events/de7f027c-f6c3-439f-b1dd-bf2b110a0fb0"
+    Then the response status code should be 404
+
+  Scenario: As a non logged-in user I cannot get private event
+    When I send a "GET" request to "/api/events/47e5a8bf-8be1-4c38-aae8-b41e6908a1b3"
     Then the response status code should be 404
 
   Scenario: As a non logged-in user I can get events
     When I send a "GET" request to "/api/events"
+    Then the response status code should be 200
+    And the JSON nodes should match:
+      | metadata.total_items  | 34 |
+
+  Scenario: As a logged-in user I can get events
+    When I am logged as "jacques.picard@en-marche.fr"
+    And I send a "GET" request to "/api/events"
     Then the response status code should be 200
     And the JSON nodes should match:
       | metadata.total_items  | 35 |
@@ -375,7 +386,7 @@ Feature:
     Then the response status code should be 200
     And the response should be in JSON
     And the JSON nodes should match:
-      | metadata.total_items  | 19 |
+      | metadata.total_items  | 18 |
 
     When I send a "GET" request to "/api/events?group_source=coalitions"
     Then the response status code should be 200
