@@ -2,6 +2,7 @@
 
 namespace App\Entity\DoorToDoor;
 
+use ApiPlatform\Core\Annotation\ApiResource;
 use App\Entity\EntityAdministratorTrait;
 use App\Entity\EntityIdentityTrait;
 use App\Entity\EntityTimestampableTrait;
@@ -9,11 +10,38 @@ use App\Entity\Jecoute\Survey;
 use Doctrine\ORM\Mapping as ORM;
 use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
+use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity
  * @ORM\Table(name="door_to_door_campaign")
+ *
+ * @ApiResource(
+ *     attributes={
+ *         "order": {"createdAt": "DESC"},
+ *         "pagination_enabled": false,
+ *         "access_control": "is_granted('HAS_FEATURE_DOOR_TO_DOOR') or is_granted('ROLE_OAUTH_SCOPE_JEMARCHE_APP')",
+ *         "normalization_context": {
+ *             "iri": true,
+ *             "groups": {"door_to_door_campaign_read"},
+ *         },
+ *         "access_control": "is_granted('ROLE_USER')",
+ *     },
+ *     itemOperations={
+ *         "get": {
+ *             "method": "GET",
+ *             "path": "/v3/door_to_door_campaigns/{id}",
+ *             "requirements": {"id": "%pattern_uuid%"},
+ *         },
+ *     },
+ *     collectionOperations={
+ *         "get": {
+ *             "method": "GET",
+ *             "path": "/v3/door_to_door_campaigns",
+ *         },
+ *     },
+ * )
  */
 class Campaign
 {
@@ -28,6 +56,8 @@ class Campaign
      *
      * @Assert\NotBlank
      * @Assert\Length(max="255")
+     *
+     * @Groups({"door_to_door_campaign_read"})
      */
     private $title;
 
@@ -35,6 +65,8 @@ class Campaign
      * @var string|null
      *
      * @ORM\Column(type="text", nullable=true)
+     *
+     * @Groups({"door_to_door_campaign_read"})
      */
     private $brief;
 
@@ -45,6 +77,8 @@ class Campaign
      *
      * @Assert\NotBlank
      * @Assert\GreaterThan(value="0")
+     *
+     * @Groups({"door_to_door_campaign_read"})
      */
     private $goal;
 
@@ -65,6 +99,8 @@ class Campaign
      *
      * @Assert\NotBlank(groups={"regular_campaign"})
      * @Assert\DateTime
+     *
+     * @Groups({"door_to_door_campaign_read"})
      */
     private $finishAt;
 

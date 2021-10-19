@@ -13,6 +13,7 @@ class ScopeEnum extends Enum
     public const NATIONAL = 'national';
     public const PHONING = 'phoning';
     public const PHONING_NATIONAL_MANAGER = 'phoning_national_manager';
+    public const DOOR_TO_DOOR_NATIONAL_MANAGER = 'door_to_door_national_manager';
 
     public const ALL = [
         self::REFERENT,
@@ -22,6 +23,7 @@ class ScopeEnum extends Enum
         self::NATIONAL,
         self::PHONING,
         self::PHONING_NATIONAL_MANAGER,
+        self::DOOR_TO_DOOR_NATIONAL_MANAGER,
     ];
 
     public const FOR_AUDIENCE_SEGMENT = [

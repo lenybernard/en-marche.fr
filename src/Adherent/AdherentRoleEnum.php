@@ -62,6 +62,7 @@ class AdherentRoleEnum extends Enum
     public const CAUSE_AUTHOR = 'cause_author';
 
     public const ROLE_TEAM_PHONING_MANAGER = 'role_team_phoning_manager';
+    public const ROLE_DOOR_TO_DOOR_NATIONAL_MANAGER = 'role_door_to_door_national_manager';
 
     public static function getCandidates(): array
     {

@@ -39,6 +39,14 @@ Feature:
         ]
       },
       {
+        "code": "door_to_door_national_manager",
+        "name": "Responsable National PAP",
+        "zones": [],
+        "apps": [
+          "data_corner"
+        ]
+      },
+      {
         "code": "national",
         "name": "National",
         "zones": [
@@ -99,6 +107,7 @@ Feature:
         "elections",
         "ripostes",
         "phoning",
+        "door_to_door",
         "team"
       ]
     }
