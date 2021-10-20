@@ -26,6 +26,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\Table(name="phoning_campaign")
  *
  * @ApiResource(
+ *     shortName="PhoningCampaign",
  *     attributes={
  *         "normalization_context": {
  *             "iri": true,
@@ -58,7 +59,6 @@ use Symfony\Component\Validator\Constraints as Assert;
  *         "survey_get_subresource": {
  *             "method": "GET",
  *             "path": "/v3/phoning_campaigns/{id}/survey",
- *             "access_control": "object.isPermanent() or is_granted('ROLE_PHONING_CAMPAIGN_MEMBER')",
  *             "requirements": {"id": "%pattern_uuid%"},
  *         },
  *     },

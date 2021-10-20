@@ -3,6 +3,7 @@
 namespace App\Entity\DoorToDoor;
 
 use ApiPlatform\Core\Annotation\ApiResource;
+use ApiPlatform\Core\Annotation\ApiSubresource;
 use App\Entity\EntityAdministratorTrait;
 use App\Entity\EntityIdentityTrait;
 use App\Entity\EntityTimestampableTrait;
@@ -18,6 +19,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\Table(name="door_to_door_campaign")
  *
  * @ApiResource(
+ *     shortName="DoorToDoorCampaign",
  *     attributes={
  *         "order": {"createdAt": "DESC"},
  *         "pagination_enabled": false,
@@ -39,6 +41,13 @@ use Symfony\Component\Validator\Constraints as Assert;
  *         "get": {
  *             "method": "GET",
  *             "path": "/v3/door_to_door_campaigns",
+ *         },
+ *     },
+ *     subresourceOperations={
+ *         "survey_get_subresource": {
+ *             "method": "GET",
+ *             "path": "/v3/door_to_door_campaigns/{id}/survey",
+ *             "requirements": {"id": "%pattern_uuid%"},
  *         },
  *     },
  * )
@@ -109,6 +118,8 @@ class Campaign
      * @ORM\JoinColumn(nullable=false)
      *
      * @Assert\NotBlank
+     *
+     * @ApiSubresource
      */
     private $survey;
 
