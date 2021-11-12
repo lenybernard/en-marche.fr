@@ -4,7 +4,7 @@ namespace Tests\App\Test\Algolia;
 
 use Algolia\AlgoliaSearch\Response\NullResponse;
 use Algolia\SearchBundle\SearchService;
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\Persistence\ObjectManager;
 
 class DummySearchService implements SearchService
 {
@@ -18,7 +18,7 @@ class DummySearchService implements SearchService
         $this->decorated = $decorated;
     }
 
-    public function index(ObjectManager $objectManager, $searchables, $requestOptions = []): NullResponse
+    public function index(ObjectManager $objectManager, $searchables, $requestOptions = [])
     {
         foreach (\is_array($searchables) ? $searchables : [$searchables] as $object) {
             if (!isset($this->entitiesToIndex[\get_class($object)])) {

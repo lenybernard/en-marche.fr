@@ -549,6 +549,7 @@
 
             <call method="addChild">
                 <argument type="service" id="app.admin.territorial_council_membership" />
+                <argument type="string">territorialCouncil</argument>
             </call>
         </service>
 

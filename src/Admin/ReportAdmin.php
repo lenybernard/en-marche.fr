@@ -10,10 +10,9 @@ use Doctrine\ORM\QueryBuilder;
 use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
-use Sonata\AdminBundle\Form\Type\Filter\ChoiceType as FilterChoiceType;
+use Sonata\AdminBundle\Form\Type\Operator\ContainsOperatorType;
 use Sonata\AdminBundle\Route\RouteCollectionInterface;
 use Sonata\AdminBundle\Show\ShowMapper;
-use Sonata\CoreBundle\Form\Type\DateRangePickerType;
 use Sonata\DoctrineORMAdminBundle\Datagrid\ProxyQuery;
 use Sonata\DoctrineORMAdminBundle\Filter\CallbackFilter;
 use Sonata\DoctrineORMAdminBundle\Filter\DateRangeFilter;
@@ -26,7 +25,7 @@ class ReportAdmin extends AbstractAdmin
     private const DATE_FORMAT = 'Y-m-d H:i:s';
 
     protected $datagridValues = [
-        'status' => ['type' => FilterChoiceType::TYPE_EQUAL, 'value' => ReportStatusEnum::STATUS_UNRESOLVED],
+        'status' => ['type' => ContainsOperatorType::TYPE_EQUAL, 'value' => ReportStatusEnum::STATUS_UNRESOLVED],
         '_page' => 1,
         '_per_page' => 32,
         '_sort_order' => 'DESC',
