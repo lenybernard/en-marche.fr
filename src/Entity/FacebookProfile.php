@@ -8,8 +8,8 @@ use Ramsey\Uuid\UuidInterface;
 
 /**
  * @ORM\Table(name="facebook_profiles", uniqueConstraints={
- *     @ORM\UniqueConstraint(name="facebook_profile_uuid", columns="uuid"),
- *     @ORM\UniqueConstraint(name="facebook_profile_facebook_id", columns="facebook_id")
+ *     @ORM\UniqueConstraint(name="facebook_profile_uuid", columns={"uuid"}),
+ *     @ORM\UniqueConstraint(name="facebook_profile_facebook_id", columns={"facebook_id"})
  * })
  * @ORM\Entity(repositoryClass="App\Repository\FacebookProfileRepository")
  */

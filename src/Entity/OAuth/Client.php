@@ -23,7 +23,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  *
  * @ORM\Entity(repositoryClass="App\Repository\OAuth\ClientRepository")
  * @ORM\Table(name="oauth_clients", uniqueConstraints={
- *     @ORM\UniqueConstraint(name="oauth_clients_uuid_unique", columns="uuid")
+ *     @ORM\UniqueConstraint(name="oauth_clients_uuid_unique", columns={"uuid"})
  * })
  */
 class Client implements EntitySoftDeletedInterface

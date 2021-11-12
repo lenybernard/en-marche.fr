@@ -5,9 +5,9 @@ namespace App\Algolia\Sonata\Model;
 use Algolia\SearchBundle\SearchService;
 use App\Algolia\Query\QueryBuilder;
 use App\Algolia\Sonata\ProxyQuery\ProxyQuery;
-use Sonata\AdminBundle\Admin\FieldDescriptionInterface;
 use Sonata\AdminBundle\Datagrid\DatagridInterface;
 use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
+use Sonata\AdminBundle\FieldDescription\FieldDescriptionInterface;
 use Sonata\AdminBundle\Model\ModelManagerInterface;
 
 class ModelManager implements ModelManagerInterface
@@ -21,7 +21,7 @@ class ModelManager implements ModelManagerInterface
         $this->queryBuilder = $queryBuilder;
     }
 
-    public function createQuery($class, $alias = 'o')
+    public function createQuery(string $class): ProxyQueryInterface
     {
         return new ProxyQuery($this->algolia, $this->queryBuilder, $class);
     }
@@ -62,32 +62,32 @@ class ModelManager implements ModelManagerInterface
         return ['filter' => $values];
     }
 
-    public function create($object)
+    public function create($object): void
     {
     }
 
-    public function update($object)
+    public function update($object): void
     {
     }
 
-    public function delete($object)
+    public function delete($object): void
     {
     }
 
-    public function findBy($class, array $criteria = [])
+    public function findBy(string $class, array $criteria = []): array
     {
         return [];
     }
 
-    public function findOneBy($class, array $criteria = [])
+    public function findOneBy(string $class, array $criteria = []): ?object
     {
     }
 
-    public function find($class, $id)
+    public function find(string $class, $id): ?object
     {
     }
 
-    public function batchDelete($class, ProxyQueryInterface $queryProxy)
+    public function batchDelete(string $class, ProxyQueryInterface $queryProxy): void
     {
     }
 
@@ -95,44 +95,44 @@ class ModelManager implements ModelManagerInterface
     {
     }
 
-    public function getIdentifierValues($model)
+    public function getIdentifierValues(object $model): array
     {
         return [];
     }
 
-    public function getIdentifierFieldNames($class)
+    public function getIdentifierFieldNames(string $class): array
     {
         return [];
     }
 
-    public function getNormalizedIdentifier($model)
+    public function getNormalizedIdentifier(object $model): ?string
     {
         return null;
     }
 
-    public function getUrlsafeIdentifier($model)
+    public function getUrlsafeIdentifier(object $model): ?string
     {
     }
 
-    public function getModelInstance($class)
-    {
-        return null;
-    }
-
-    public function getModelCollectionInstance($class)
+    public function getModelInstance()
     {
         return null;
     }
 
-    public function collectionRemoveElement(&$collection, &$element)
+    public function getModelCollectionInstance()
+    {
+        return null;
+    }
+
+    public function collectionRemoveElement()
     {
     }
 
-    public function collectionAddElement(&$collection, &$element)
+    public function collectionAddElement()
     {
     }
 
-    public function collectionHasElement(&$collection, &$element)
+    public function collectionHasElement()
     {
         return false;
     }
@@ -141,12 +141,12 @@ class ModelManager implements ModelManagerInterface
     {
     }
 
-    public function getSortParameters(FieldDescriptionInterface $fieldDescription, DatagridInterface $datagrid)
+    public function getSortParameters(FieldDescriptionInterface $fieldDescription)
     {
         return [];
     }
 
-    public function modelReverseTransform($class, array $array = [])
+    public function modelReverseTransform()
     {
         return null;
     }
@@ -168,12 +168,21 @@ class ModelManager implements ModelManagerInterface
         return null;
     }
 
-    public function getExportFields($class)
+    public function getExportFields(string $class): array
     {
         return [];
     }
 
-    public function addIdentifiersToQuery($class, ProxyQueryInterface $query, array $idx)
+    public function addIdentifiersToQuery(string $class, ProxyQueryInterface $query, array $idx): void
     {
+    }
+
+    public function reverseTransform(object $object, array $array = []): void
+    {
+    }
+
+    public function supportsQuery(object $query): bool
+    {
+        return false;
     }
 }

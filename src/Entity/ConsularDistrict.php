@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * @ORM\Entity(repositoryClass="App\Repository\ConsularDistrictRepository")
  * @ORM\Table(
- *     uniqueConstraints={@ORM\UniqueConstraint(name="consular_district_code_unique", columns="code")}
+ *     uniqueConstraints={@ORM\UniqueConstraint(name="consular_district_code_unique", columns={"code"})}
  * )
  */
 class ConsularDistrict

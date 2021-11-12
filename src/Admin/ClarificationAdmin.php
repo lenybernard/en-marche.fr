@@ -8,6 +8,7 @@ use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Form\Type\AdminType;
+use Sonata\AdminBundle\Object\MetadataInterface;
 use Sonata\CoreBundle\Model\Metadata;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;

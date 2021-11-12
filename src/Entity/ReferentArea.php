@@ -9,7 +9,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * @ORM\Entity(repositoryClass="App\Repository\ReferentAreaRepository")
  * @ORM\Table(name="referent_area", uniqueConstraints={
- *     @ORM\UniqueConstraint(name="referent_area_area_code_unique", columns="area_code")
+ *     @ORM\UniqueConstraint(name="referent_area_area_code_unique", columns={"area_code"})
  * })
  * @UniqueEntity(fields="areaCode", message="legislative_district_zone.area_code.unique", groups="Admin")
  */

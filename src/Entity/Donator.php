@@ -11,7 +11,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\Table(
  *     name="donators",
  *     uniqueConstraints={
- *         @ORM\UniqueConstraint(name="donator_identifier_unique", columns="identifier"),
+ *         @ORM\UniqueConstraint(name="donator_identifier_unique", columns={"identifier"}),
  *     },
  *     indexes={
  *         @ORM\Index(columns={"email_address", "first_name", "last_name"}),

@@ -10,7 +10,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Table(name="administrators", uniqueConstraints={
- *     @ORM\UniqueConstraint(name="administrators_email_address_unique", columns="email_address")
+ *     @ORM\UniqueConstraint(name="administrators_email_address_unique", columns={"email_address"})
  * })
  * @ORM\Entity(repositoryClass="App\Repository\AdministratorRepository")
  *

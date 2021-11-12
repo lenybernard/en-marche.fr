@@ -87,8 +87,8 @@ use Symfony\Component\Validator\Constraints as Assert;
  * )
  *
  * @ORM\Table(name="adherents", uniqueConstraints={
- *     @ORM\UniqueConstraint(name="adherents_uuid_unique", columns="uuid"),
- *     @ORM\UniqueConstraint(name="adherents_email_address_unique", columns="email_address")
+ *     @ORM\UniqueConstraint(name="adherents_uuid_unique", columns={"uuid"}),
+ *     @ORM\UniqueConstraint(name="adherents_email_address_unique", columns={"email_address"})
  * })
  * @ORM\Entity(repositoryClass="App\Repository\AdherentRepository")
  * @ORM\EntityListeners({"App\EntityListener\RevokeReferentTeamMemberRolesListener", "App\EntityListener\RevokeDelegatedAccessListener"})

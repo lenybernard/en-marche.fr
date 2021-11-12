@@ -18,7 +18,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\Table(
  *     name="poll_choice",
  *     uniqueConstraints={
- *         @ORM\UniqueConstraint(name="poll_choice_uuid_unique", columns="uuid")
+ *         @ORM\UniqueConstraint(name="poll_choice_uuid_unique", columns={"uuid"})
  *     }
  * )
  */

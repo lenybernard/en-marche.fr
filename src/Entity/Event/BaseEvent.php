@@ -49,8 +49,8 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\Table(
  *     name="events",
  *     uniqueConstraints={
- *         @ORM\UniqueConstraint(name="event_uuid_unique", columns="uuid"),
- *         @ORM\UniqueConstraint(name="event_slug_unique", columns="slug")
+ *         @ORM\UniqueConstraint(name="event_uuid_unique", columns={"uuid"}),
+ *         @ORM\UniqueConstraint(name="event_slug_unique", columns={"slug"})
  *     },
  *     indexes={
  *         @ORM\Index(columns={"begin_at"}),

@@ -8,8 +8,8 @@ use Ramsey\Uuid\UuidInterface;
 
 /**
  * @ORM\Table(name="ton_macron_choices", uniqueConstraints={
- *     @ORM\UniqueConstraint(name="ton_macron_choices_uuid_unique", columns="uuid"),
- *     @ORM\UniqueConstraint(name="ton_macron_choices_content_key_unique", columns="content_key")
+ *     @ORM\UniqueConstraint(name="ton_macron_choices_uuid_unique", columns={"uuid"}),
+ *     @ORM\UniqueConstraint(name="ton_macron_choices_content_key_unique", columns={"content_key"})
  * })
  * @ORM\Entity(repositoryClass="App\Repository\TonMacronChoiceRepository")
  */

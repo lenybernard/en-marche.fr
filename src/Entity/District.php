@@ -13,9 +13,9 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(
  *     name="districts",
  *     uniqueConstraints={
- *         @ORM\UniqueConstraint(name="district_code_unique", columns="code"),
+ *         @ORM\UniqueConstraint(name="district_code_unique", columns={"code"}),
  *         @ORM\UniqueConstraint(name="district_department_code_number", columns={"department_code", "number"}),
- *         @ORM\UniqueConstraint(name="district_referent_tag_unique", columns="referent_tag_id")
+ *         @ORM\UniqueConstraint(name="district_referent_tag_unique", columns={"referent_tag_id"})
  *     }
  * )
  */

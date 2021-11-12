@@ -19,7 +19,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\Entity(repositoryClass="App\Repository\Filesystem\FileRepository")
  * @ORM\Table(name="filesystem_file",
  *     uniqueConstraints={
- *         @ORM\UniqueConstraint(name="filesystem_file_slug_unique", columns="slug")
+ *         @ORM\UniqueConstraint(name="filesystem_file_slug_unique", columns={"slug"})
  *     },
  *     indexes={
  *         @ORM\Index(columns={"type"}),

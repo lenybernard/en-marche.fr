@@ -13,7 +13,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\Table(
  *     name="user_documents",
  *     uniqueConstraints={
- *         @ORM\UniqueConstraint(name="document_uuid_unique", columns="uuid")
+ *         @ORM\UniqueConstraint(name="document_uuid_unique", columns={"uuid"})
  *     }
  * )
  * @ORM\Entity(repositoryClass="App\Repository\UserDocumentRepository")

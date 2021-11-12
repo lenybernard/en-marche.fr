@@ -11,8 +11,8 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\Table(
  *     name="roles",
  *     uniqueConstraints={
- *         @ORM\UniqueConstraint(name="board_member_role_code_unique", columns="code"),
- *         @ORM\UniqueConstraint(name="board_member_role_name_unique", columns="name")
+ *         @ORM\UniqueConstraint(name="board_member_role_code_unique", columns={"code"}),
+ *         @ORM\UniqueConstraint(name="board_member_role_name_unique", columns={"name"})
  *     }
  * )
  *

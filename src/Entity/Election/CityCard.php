@@ -12,7 +12,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * @ORM\Entity
  * @ORM\Table(name="election_city_card", uniqueConstraints={
- *     @ORM\UniqueConstraint(name="city_card_city_unique", columns="city_id")
+ *     @ORM\UniqueConstraint(name="city_card_city_unique", columns={"city_id"})
  * })
  *
  * @UniqueEntity("city")

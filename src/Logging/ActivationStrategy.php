@@ -17,7 +17,7 @@ class ActivationStrategy extends ErrorLevelActivationStrategy
         $this->ignoredStatusCodes = $ignoredStatusCodes;
     }
 
-    public function isHandlerActivated(array $record)
+    public function isHandlerActivated(array $record): bool
     {
         return parent::isHandlerActivated($record) && $this->isRecordActivated($record);
     }

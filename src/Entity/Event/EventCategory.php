@@ -29,8 +29,8 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\Table(
  *     name="events_categories",
  *     uniqueConstraints={
- *         @ORM\UniqueConstraint(name="event_category_name_unique", columns="name"),
- *         @ORM\UniqueConstraint(name="event_category_slug_unique", columns="slug")
+ *         @ORM\UniqueConstraint(name="event_category_name_unique", columns={"name"}),
+ *         @ORM\UniqueConstraint(name="event_category_slug_unique", columns={"slug"})
  *     }
  * )
  *

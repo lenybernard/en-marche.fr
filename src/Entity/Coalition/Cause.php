@@ -96,8 +96,8 @@ use Symfony\Component\Validator\Constraints as Assert;
  *
  * @ORM\Table(
  *     uniqueConstraints={
- *         @ORM\UniqueConstraint(name="cause_uuid_unique", columns="uuid"),
- *         @ORM\UniqueConstraint(name="cause_name_unique", columns="name")
+ *         @ORM\UniqueConstraint(name="cause_uuid_unique", columns={"uuid"}),
+ *         @ORM\UniqueConstraint(name="cause_name_unique", columns={"name"})
  *     }
  * )
  * @ORM\Entity(repositoryClass="App\Repository\Coalition\CauseRepository")

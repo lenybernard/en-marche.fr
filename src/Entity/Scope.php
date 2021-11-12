@@ -10,7 +10,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\Entity(repositoryClass="App\Repository\ScopeRepository")
  * @ORM\Table(
  *     uniqueConstraints={
- *         @ORM\UniqueConstraint(name="scope_code_unique", columns="code")
+ *         @ORM\UniqueConstraint(name="scope_code_unique", columns={"code"})
  *     }
  * )
  *

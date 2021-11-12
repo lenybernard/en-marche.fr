@@ -12,7 +12,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Table(name="referent", uniqueConstraints={
- *     @ORM\UniqueConstraint(name="referent_slug_unique", columns="slug")
+ *     @ORM\UniqueConstraint(name="referent_slug_unique", columns={"slug"})
  * })
  * @ORM\Entity(repositoryClass="App\Repository\ReferentRepository")
  *

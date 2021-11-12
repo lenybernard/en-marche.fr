@@ -10,7 +10,7 @@ use Ramsey\Uuid\UuidInterface;
 /**
  * @ORM\Entity(repositoryClass="App\Repository\InteractiveInvitationRepository")
  * @ORM\Table(name="interactive_invitations", uniqueConstraints={
- *     @ORM\UniqueConstraint(name="interactive_invitations_uuid_unique", columns="uuid")
+ *     @ORM\UniqueConstraint(name="interactive_invitations_uuid_unique", columns={"uuid"})
  * })
  * @ORM\InheritanceType("SINGLE_TABLE")
  * @ORM\DiscriminatorColumn(name="type", type="string")

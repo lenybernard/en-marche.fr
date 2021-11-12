@@ -13,7 +13,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\Entity
  * @ORM\Table(
  *     name="mooc_chapter",
- *     uniqueConstraints={@ORM\UniqueConstraint(name="mooc_chapter_slug", columns="slug")}
+ *     uniqueConstraints={@ORM\UniqueConstraint(name="mooc_chapter_slug", columns={"slug"})}
  * )
  *
  * @UniqueEntity(fields={"slug", "mooc"})
