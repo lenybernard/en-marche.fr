@@ -27,15 +27,14 @@ class TonMacronChoiceAdmin extends AbstractAdmin
         return parent::getTemplate($name);
     }
 
-    public function getBatchActions()
+    protected function configureBatchActions(array $actions): array
     {
-        $actions = parent::getBatchActions();
         unset($actions['delete']);
 
         return $actions;
     }
 
-    protected function configureFormFields(FormMapper $formMapper)
+    protected function configureFormFields(FormMapper $formMapper): void
     {
         $formMapper
             ->add('contentKey', null, [
@@ -56,7 +55,7 @@ class TonMacronChoiceAdmin extends AbstractAdmin
         ;
     }
 
-    protected function configureListFields(ListMapper $listMapper)
+    protected function configureListFields(ListMapper $listMapper): void
     {
         $listMapper
             ->add('contentKey', null, [

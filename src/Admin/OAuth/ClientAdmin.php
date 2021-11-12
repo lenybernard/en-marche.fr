@@ -8,6 +8,7 @@ use App\OAuth\Form\GrantTypesType;
 use App\OAuth\Form\ScopesType;
 use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Datagrid\ListMapper;
+use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Show\ShowMapper;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
@@ -21,10 +22,8 @@ class ClientAdmin extends AbstractAdmin
      */
     private $clientManager;
 
-    public function createQuery($context = 'list')
+    protected function configureQuery(ProxyQueryInterface $query): ProxyQueryInterface
     {
-        $query = parent::createQuery();
-
         $query->andWhere(
             $query->expr()->isNull($query->getRootAliases()[0].'.deletedAt')
         );
@@ -32,7 +31,7 @@ class ClientAdmin extends AbstractAdmin
         return $query;
     }
 
-    protected function configureListFields(ListMapper $listMapper)
+    protected function configureListFields(ListMapper $listMapper): void
     {
         $listMapper
             ->addIdentifier('name', null, [
@@ -71,7 +70,7 @@ class ClientAdmin extends AbstractAdmin
         ;
     }
 
-    public function configureShowFields(ShowMapper $showMapper)
+    protected function configureShowFields(ShowMapper $showMapper): void
     {
         $showMapper
             ->with('Informations')
@@ -103,7 +102,7 @@ class ClientAdmin extends AbstractAdmin
         ;
     }
 
-    protected function configureFormFields(FormMapper $formMapper)
+    protected function configureFormFields(FormMapper $formMapper): void
     {
         $formMapper
             ->add('name', null, [
@@ -142,7 +141,7 @@ class ClientAdmin extends AbstractAdmin
         ;
     }
 
-    public function delete($object)
+    protected function postRemove(object $object): void
     {
         $this->clientManager->delete($object);
     }
@@ -152,7 +151,7 @@ class ClientAdmin extends AbstractAdmin
         $this->clientManager = $clientManager;
     }
 
-    protected function configureBatchActions($actions)
+    protected function configureBatchActions(array $actions): array
     {
         return [];
     }

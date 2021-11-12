@@ -11,12 +11,12 @@ class AbstractAdmin extends SonataAdmin
         return !(bool) $this->getSubject()->getId();
     }
 
-    protected function configureBatchActions($actions)
+    protected function configureBatchActions(array $actions): array
     {
         return [];
     }
 
-    protected function configureDefaultSortValues(array &$sortValues)
+    protected function configureDefaultSortValues(array &$sortValues): void
     {
         $sortValues['_sort_order'] = 'DESC';
     }

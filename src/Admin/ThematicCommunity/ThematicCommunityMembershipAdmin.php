@@ -21,7 +21,7 @@ use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
-use Sonata\AdminBundle\Route\RouteCollection;
+use Sonata\AdminBundle\Route\RouteCollectionInterface;
 use Sonata\DoctrineORMAdminBundle\Datagrid\ProxyQuery;
 use Sonata\DoctrineORMAdminBundle\Filter\CallbackFilter;
 use Sonata\DoctrineORMAdminBundle\Filter\DateRangeFilter;
@@ -35,7 +35,7 @@ class ThematicCommunityMembershipAdmin extends AbstractAdmin
 {
     public $otherMemberships = [];
 
-    protected function configureRoutes(RouteCollection $collection)
+    protected function configureRoutes(RouteCollectionInterface $collection): void
     {
         $collection
             ->remove('create')
@@ -43,7 +43,7 @@ class ThematicCommunityMembershipAdmin extends AbstractAdmin
         ;
     }
 
-    protected function configureListFields(ListMapper $listMapper)
+    protected function configureListFields(ListMapper $listMapper): void
     {
         $listMapper
             ->addIdentifier('id', null, [
@@ -96,7 +96,7 @@ class ThematicCommunityMembershipAdmin extends AbstractAdmin
         ;
     }
 
-    protected function configureFormFields(FormMapper $formMapper)
+    protected function configureFormFields(FormMapper $formMapper): void
     {
         $this->setOtherMemberships($formMapper->getFormBuilder()->getDataClass());
 
@@ -210,7 +210,7 @@ class ThematicCommunityMembershipAdmin extends AbstractAdmin
         ;
     }
 
-    protected function configureDatagridFilters(DatagridMapper $filter)
+    protected function configureDatagridFilters(DatagridMapper $filter): void
     {
         $filter
             ->add('id', null, [
@@ -456,7 +456,7 @@ class ThematicCommunityMembershipAdmin extends AbstractAdmin
         ;
     }
 
-    public function toString($object)
+    public function toString(object $object): string
     {
         return sprintf('Adhésion de %s à la communauté %s', $object->getFirstName().' '.$object->getLastName(), $object->getCommunity()->getName());
     }

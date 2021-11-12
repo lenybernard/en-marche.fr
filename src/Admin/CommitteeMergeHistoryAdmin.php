@@ -5,7 +5,7 @@ namespace App\Admin;
 use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
-use Sonata\AdminBundle\Route\RouteCollection;
+use Sonata\AdminBundle\Route\RouteCollectionInterface;
 use Sonata\DoctrineORMAdminBundle\Datagrid\ProxyQuery;
 use Sonata\DoctrineORMAdminBundle\Filter\CallbackFilter;
 use Sonata\DoctrineORMAdminBundle\Filter\DateRangeFilter;
@@ -26,7 +26,7 @@ class CommitteeMergeHistoryAdmin extends AbstractAdmin
         'revert' => 'REVERT',
     ];
 
-    public function configureRoutes(RouteCollection $collection)
+    protected function configureRoutes(RouteCollectionInterface $collection): void
     {
         $collection
             ->clearExcept('list')
@@ -35,22 +35,22 @@ class CommitteeMergeHistoryAdmin extends AbstractAdmin
         ;
     }
 
-    public function configureActionButtons($action, $object = null)
+    protected function configureActionButtons(array $buttonList, string $action, ?object $object = null): array
     {
         if ('merge' === $action) {
-            $actions = parent::configureActionButtons('show', $object);
+            $buttonList = parent::configureActionButtons($buttonList, 'show', $object);
         } else {
-            $actions = parent::configureActionButtons($action, $object);
+            $buttonList = parent::configureActionButtons($buttonList, $action, $object);
         }
 
         if ($this->hasAccess('merge') && $this->hasRoute('merge')) {
-            $actions['merge'] = ['template' => 'admin/committee/merge/merge_button.html.twig'];
+            $buttonList['merge'] = ['template' => 'admin/committee/merge/merge_button.html.twig'];
         }
 
-        return $actions;
+        return $buttonList;
     }
 
-    protected function configureDatagridFilters(DatagridMapper $datagridMapper)
+    protected function configureDatagridFilters(DatagridMapper $datagridMapper): void
     {
         $datagridMapper
             ->add('sourceCommittee', CallbackFilter::class, [
@@ -110,7 +110,7 @@ class CommitteeMergeHistoryAdmin extends AbstractAdmin
         ;
     }
 
-    protected function configureListFields(ListMapper $listMapper)
+    protected function configureListFields(ListMapper $listMapper): void
     {
         $listMapper
             ->add('sourceCommittee', null, [

@@ -12,7 +12,7 @@ use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Form\Type\ModelAutocompleteType;
-use Sonata\AdminBundle\Route\RouteCollection;
+use Sonata\AdminBundle\Route\RouteCollectionInterface;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
@@ -46,12 +46,12 @@ abstract class AbstractRegionAdmin extends AbstractAdmin
         $this->security = $security;
     }
 
-    protected function configureRoutes(RouteCollection $collection)
+    protected function configureRoutes(RouteCollectionInterface $collection): void
     {
         $collection->remove('delete');
     }
 
-    protected function configureFormFields(FormMapper $formMapper)
+    protected function configureFormFields(FormMapper $formMapper): void
     {
         /** @var Region $region */
         $region = $this->getSubject();
@@ -118,7 +118,7 @@ abstract class AbstractRegionAdmin extends AbstractAdmin
         ;
     }
 
-    protected function configureListFields(ListMapper $listMapper)
+    protected function configureListFields(ListMapper $listMapper): void
     {
         $listMapper
             ->add('subtitle', null, [
@@ -145,7 +145,7 @@ abstract class AbstractRegionAdmin extends AbstractAdmin
     /**
      * @param Region $region
      */
-    public function prePersist($region)
+    public function prePersist(object $region): void
     {
         parent::prePersist($region);
 
@@ -160,7 +160,7 @@ abstract class AbstractRegionAdmin extends AbstractAdmin
     /**
      * @param Region $region
      */
-    public function preUpdate($region)
+    public function preUpdate(object $region): void
     {
         parent::preUpdate($region);
 
@@ -170,7 +170,7 @@ abstract class AbstractRegionAdmin extends AbstractAdmin
     /**
      * @param Region $region
      */
-    public function postRemove($region)
+    public function postRemove(object $region): void
     {
         parent::postRemove($region);
 

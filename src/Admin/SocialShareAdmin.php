@@ -8,7 +8,8 @@ use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Form\Type\AdminType;
-use Sonata\CoreBundle\Model\Metadata;
+use Sonata\AdminBundle\Object\Metadata;
+use Sonata\AdminBundle\Object\MetadataInterface;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
@@ -31,10 +32,8 @@ class SocialShareAdmin extends AbstractAdmin
 
     /**
      * @param SocialShare $object
-     *
-     * @return Metadata
      */
-    public function getObjectMetadata($object)
+    public function getObjectMetadata(object $object): MetadataInterface
     {
         return new Metadata($object->getName(), null, $object->getMedia()->getPath());
     }
@@ -42,7 +41,7 @@ class SocialShareAdmin extends AbstractAdmin
     /**
      * @param SocialShare $object
      */
-    public function prePersist($object)
+    public function prePersist(object $object): void
     {
         // Upload
         $this->storage->put(
@@ -68,7 +67,7 @@ class SocialShareAdmin extends AbstractAdmin
         }
     }
 
-    protected function configureFormFields(FormMapper $formMapper)
+    protected function configureFormFields(FormMapper $formMapper): void
     {
         $formMapper
             ->with('Média', ['class' => 'col-md-6'])
@@ -117,7 +116,7 @@ class SocialShareAdmin extends AbstractAdmin
         ;
     }
 
-    protected function configureListFields(ListMapper $listMapper)
+    protected function configureListFields(ListMapper $listMapper): void
     {
         $listMapper
             ->addIdentifier('name', null, [

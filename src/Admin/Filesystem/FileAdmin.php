@@ -13,6 +13,7 @@ use App\Form\Admin\Filesystem\FilePermissionType;
 use App\Repository\Filesystem\FileRepository;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
+use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Form\Type\CollectionType;
 use Sonata\DoctrineORMAdminBundle\Datagrid\ProxyQuery;
@@ -47,34 +48,29 @@ class FileAdmin extends AbstractAdmin
         $this->fileManager = $fileManager;
     }
 
-    public function createQuery($context = 'list')
+    protected function configureQuery(ProxyQueryInterface $query): ProxyQueryInterface
     {
-        $queryBuilder = parent::createQuery($context);
+        $query
+            ->leftJoin('o.parent', 'parent')
+            ->leftJoin('o.permissions', 'permission')
+            ->leftJoin('o.createdBy', 'createdBy')
+            ->leftJoin('o.updatedBy', 'updatedBy')
+            ->addSelect('parent', 'permission', 'createdBy', 'updatedBy')
+            ->orderBy('parent.name', 'ASC')
+            ->addOrderBy('o.name', 'ASC')
+        ;
 
-        if ('list' === $context) {
-            $queryBuilder
-                ->leftJoin('o.parent', 'parent')
-                ->leftJoin('o.permissions', 'permission')
-                ->leftJoin('o.createdBy', 'createdBy')
-                ->leftJoin('o.updatedBy', 'updatedBy')
-                ->addSelect('parent', 'permission', 'createdBy', 'updatedBy')
-                ->orderBy('parent.name', 'ASC')
-                ->addOrderBy('o.name', 'ASC')
-            ;
-        }
-
-        return $queryBuilder;
+        return $query;
     }
 
-    public function getBatchActions()
+    protected function configureBatchActions(array $actions): array
     {
-        $actions = parent::getBatchActions();
         unset($actions['delete']);
 
         return $actions;
     }
 
-    protected function configureDatagridFilters(DatagridMapper $datagridMapper)
+    protected function configureDatagridFilters(DatagridMapper $datagridMapper): void
     {
         $datagridMapper
             ->add('name', null, [
@@ -156,7 +152,7 @@ class FileAdmin extends AbstractAdmin
         ;
     }
 
-    protected function configureFormFields(FormMapper $formMapper)
+    protected function configureFormFields(FormMapper $formMapper): void
     {
         /** @var File $file */
         $file = $this->getSubject();
@@ -211,7 +207,7 @@ class FileAdmin extends AbstractAdmin
         }
     }
 
-    protected function configureListFields(ListMapper $listMapper)
+    protected function configureListFields(ListMapper $listMapper): void
     {
         $listMapper
             ->add('fullPath', null, [
@@ -244,14 +240,14 @@ class FileAdmin extends AbstractAdmin
         ;
     }
 
-    public function prePersist($file)
+    public function prePersist(object $file): void
     {
         parent::prePersist($file);
 
         $this->fileManager->update($file);
     }
 
-    public function postPersist($file): void
+    public function postPersist(object $file): void
     {
         parent::postPersist($file);
 
@@ -260,14 +256,14 @@ class FileAdmin extends AbstractAdmin
         }
     }
 
-    public function preUpdate($file)
+    public function preUpdate(object $file): void
     {
         parent::preUpdate($file);
 
         $this->fileManager->update($file);
     }
 
-    public function postUpdate($file): void
+    public function postUpdate(object $file): void
     {
         if ($file->getFile() instanceof UploadedFile) {
             $this->fileManager->upload($file);
@@ -276,7 +272,7 @@ class FileAdmin extends AbstractAdmin
         }
     }
 
-    public function preRemove($object)
+    public function preRemove(object $object): void
     {
         parent::preRemove($object);
 
@@ -286,7 +282,7 @@ class FileAdmin extends AbstractAdmin
         }
     }
 
-    public function postRemove($object)
+    public function postRemove(object $object): void
     {
         parent::postRemove($object);
 

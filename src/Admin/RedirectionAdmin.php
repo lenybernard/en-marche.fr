@@ -16,7 +16,7 @@ class RedirectionAdmin extends AbstractAdmin
         '_sort_by' => 'updatedAt',
     ];
 
-    protected function configureFormFields(FormMapper $formMapper)
+    protected function configureFormFields(FormMapper $formMapper): void
     {
         $formMapper
             ->add('from', null, [
@@ -37,7 +37,7 @@ class RedirectionAdmin extends AbstractAdmin
         ;
     }
 
-    protected function configureListFields(ListMapper $listMapper)
+    protected function configureListFields(ListMapper $listMapper): void
     {
         $listMapper
             ->add('from', null, [

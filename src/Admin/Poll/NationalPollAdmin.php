@@ -32,7 +32,7 @@ class NationalPollAdmin extends AbstractAdmin
         '_sort_by' => 'createdAt',
     ];
 
-    protected function configureDatagridFilters(DatagridMapper $datagridMapper)
+    protected function configureDatagridFilters(DatagridMapper $datagridMapper): void
     {
         $datagridMapper
             ->add('question', null, [
@@ -54,7 +54,7 @@ class NationalPollAdmin extends AbstractAdmin
         ;
     }
 
-    protected function configureListFields(ListMapper $listMapper)
+    protected function configureListFields(ListMapper $listMapper): void
     {
         $listMapper
             ->addIdentifier('id', null, [
@@ -83,7 +83,7 @@ class NationalPollAdmin extends AbstractAdmin
         ;
     }
 
-    protected function configureFormFields(FormMapper $formMapper)
+    protected function configureFormFields(FormMapper $formMapper): void
     {
         /** @var Poll $poll */
         $poll = $this->getSubject();
@@ -116,7 +116,7 @@ class NationalPollAdmin extends AbstractAdmin
     /**
      * @param Poll $object
      */
-    public function prePersist($object)
+    public function prePersist(object $object): void
     {
         /** @var Administrator $administrator */
         $administrator = $this->security->getUser();
@@ -127,7 +127,7 @@ class NationalPollAdmin extends AbstractAdmin
     /**
      * @param Poll $object
      */
-    public function postPersist($object)
+    public function postPersist(object $object): void
     {
         $this->pollManager->scheduleNotification($object);
     }

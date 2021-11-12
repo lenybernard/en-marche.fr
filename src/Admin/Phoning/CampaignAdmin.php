@@ -28,16 +28,14 @@ class CampaignAdmin extends AbstractAdmin
 {
     private Security $security;
 
-    public function getFormBuilder()
+    protected function configureFormOptions(array &$formOptions): void
     {
         if (!$this->isPermanent()) {
-            $this->formOptions['validation_groups'] = ['Default', 'regular_campaign'];
+            $formOptions['validation_groups'] = ['Default', 'regular_campaign'];
         }
-
-        return parent::getFormBuilder();
     }
 
-    protected function configureFormFields(FormMapper $formMapper)
+    protected function configureFormFields(FormMapper $formMapper): void
     {
         $formMapper
             ->with('Informations ⚙️')
@@ -111,7 +109,7 @@ class CampaignAdmin extends AbstractAdmin
         ;
     }
 
-    protected function configureDatagridFilters(DatagridMapper $filter)
+    protected function configureDatagridFilters(DatagridMapper $filter): void
     {
         $filter
             ->add('title', null, [
@@ -139,7 +137,7 @@ class CampaignAdmin extends AbstractAdmin
         ;
     }
 
-    protected function configureListFields(ListMapper $listMapper)
+    protected function configureListFields(ListMapper $listMapper): void
     {
         $listMapper
             ->add('id', null, [
@@ -190,7 +188,7 @@ class CampaignAdmin extends AbstractAdmin
     /**
      * @param Campaign $object
      */
-    public function prePersist($object)
+    public function prePersist(object $object): void
     {
         $object->setAdministrator($this->security->getUser());
     }
@@ -201,7 +199,7 @@ class CampaignAdmin extends AbstractAdmin
         $this->security = $security;
     }
 
-    public function toString($object): string
+    public function toString(object $object): string
     {
         return sprintf('%s%s', $object, $object->isPermanent() ? ' [Campagne permanente]' : '');
     }

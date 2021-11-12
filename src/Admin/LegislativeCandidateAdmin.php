@@ -31,7 +31,7 @@ class LegislativeCandidateAdmin extends AbstractAdmin
         'validation_groups' => ['Default', 'Admin'],
     ];
 
-    protected function configureDatagridFilters(DatagridMapper $mapper)
+    protected function configureDatagridFilters(DatagridMapper $mapper): void
     {
         $mapper
             ->add('id', null, [
@@ -59,7 +59,7 @@ class LegislativeCandidateAdmin extends AbstractAdmin
         ;
     }
 
-    protected function configureListFields(ListMapper $mapper)
+    protected function configureListFields(ListMapper $mapper): void
     {
         $mapper
             ->addIdentifier('id', null, [
@@ -93,7 +93,7 @@ class LegislativeCandidateAdmin extends AbstractAdmin
         ;
     }
 
-    protected function configureFormFields(FormMapper $mapper)
+    protected function configureFormFields(FormMapper $mapper): void
     {
         $mapper
             ->with('Informations personnelles', ['class' => 'col-md-4'])
@@ -202,9 +202,9 @@ class LegislativeCandidateAdmin extends AbstractAdmin
         ;
     }
 
-    protected function configureShowFields(ShowMapper $mapper)
+    protected function configureShowFields(ShowMapper $showMapper): void
     {
-        $mapper
+        $showMapper
             ->with('Informations générales', ['class' => 'col-md-5'])
                 ->add('id', null, [
                     'label' => 'ID',

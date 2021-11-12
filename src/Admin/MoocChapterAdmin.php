@@ -4,12 +4,12 @@ namespace App\Admin;
 
 use App\Entity\Mooc\BaseMoocElement;
 use App\Entity\Mooc\Mooc;
-use Doctrine\ORM\QueryBuilder;
 use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
+use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
 use Sonata\AdminBundle\Form\FormMapper;
-use Sonata\AdminBundle\Route\RouteCollection;
+use Sonata\AdminBundle\Route\RouteCollectionInterface;
 use Sonata\CoreBundle\Form\Type\DatePickerType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
@@ -18,17 +18,15 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 class MoocChapterAdmin extends AbstractAdmin
 {
-    public function createQuery($context = 'list')
+    protected function configureQuery(ProxyQueryInterface $query): ProxyQueryInterface
     {
-        /** @var QueryBuilder $proxyQuery */
-        $proxyQuery = parent::createQuery($context);
-        $proxyQuery->addOrderBy('o.mooc', 'ASC');
-        $proxyQuery->addOrderBy('o.position', 'ASC');
+        $query->addOrderBy('o.mooc', 'ASC');
+        $query->addOrderBy('o.position', 'ASC');
 
-        return $proxyQuery;
+        return $query;
     }
 
-    protected function configureFormFields(FormMapper $formMapper)
+    protected function configureFormFields(FormMapper $formMapper): void
     {
         $formMapper
             ->tab('Chapitres')
@@ -77,7 +75,7 @@ class MoocChapterAdmin extends AbstractAdmin
         ;
     }
 
-    protected function configureDatagridFilters(DatagridMapper $datagridMapper)
+    protected function configureDatagridFilters(DatagridMapper $datagridMapper): void
     {
         $datagridMapper
             ->add('title', null, [
@@ -91,7 +89,7 @@ class MoocChapterAdmin extends AbstractAdmin
         ;
     }
 
-    protected function configureListFields(ListMapper $listMapper)
+    protected function configureListFields(ListMapper $listMapper): void
     {
         $listMapper
             ->addIdentifier('title', null, [
@@ -126,7 +124,7 @@ class MoocChapterAdmin extends AbstractAdmin
         ;
     }
 
-    protected function configureRoutes(RouteCollection $collection)
+    protected function configureRoutes(RouteCollectionInterface $collection): void
     {
         $collection->remove('show');
         $collection->add('move', $this->getRouterIdParameter().'/move/{position}');

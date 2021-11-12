@@ -10,7 +10,7 @@ use App\Form\Audience\AudienceSnapshotType;
 use App\Repository\AdherentRepository;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
-use Sonata\AdminBundle\Route\RouteCollection;
+use Sonata\AdminBundle\Route\RouteCollectionInterface;
 use Sonata\AdminBundle\Show\ShowMapper;
 use Sonata\Form\Type\BooleanType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
@@ -26,7 +26,7 @@ class SmsCampaignAdmin extends AbstractAdmin
     /** @var AdherentRepository */
     private $adherentRepository;
 
-    protected function configureRoutes(RouteCollection $collection)
+    protected function configureRoutes(RouteCollectionInterface $collection): void
     {
         $collection
             ->add('confirm', $this->getRouterIdParameter().'/confirmation')
@@ -34,7 +34,7 @@ class SmsCampaignAdmin extends AbstractAdmin
         ;
     }
 
-    protected function configureListFields(ListMapper $list)
+    protected function configureListFields(ListMapper $list): void
     {
         $list
             ->add('id', null, ['label' => 'ID'])
@@ -57,7 +57,7 @@ class SmsCampaignAdmin extends AbstractAdmin
         ;
     }
 
-    protected function configureFormFields(FormMapper $form)
+    protected function configureFormFields(FormMapper $form): void
     {
         $form
             ->with('Contenu')
@@ -87,9 +87,9 @@ class SmsCampaignAdmin extends AbstractAdmin
         });
     }
 
-    protected function configureShowFields(ShowMapper $show)
+    protected function configureShowFields(ShowMapper $showMapper): void
     {
-        $show
+        $showMapper
             ->add('title', null, ['label' => 'Titre'])
             ->add('content', null, ['label' => 'Contenu'])
             ->add('administrator', null, ['label' => 'Auteur'])
@@ -103,17 +103,17 @@ class SmsCampaignAdmin extends AbstractAdmin
         ;
     }
 
-    public function checkAccess($action, $object = null)
-    {
-        if ($object instanceof SmsCampaign && 'delete' === $action && !$object->isDraft()) {
-            throw new AccessDeniedException();
-        }
-
-        return parent::checkAccess($action, $object);
-    }
+//    public function checkAccess(string $action, ?object $object = null): void
+//    {
+//        if ($object instanceof SmsCampaign && 'delete' === $action && !$object->isDraft()) {
+//            throw new AccessDeniedException();
+//        }
+//
+//        parent::checkAccess($action, $object);
+//    }
 
     /** @param SmsCampaign $object */
-    public function prePersist($object)
+    public function prePersist(object $object): void
     {
         $object->setAdministrator($this->security->getUser());
 
@@ -121,7 +121,7 @@ class SmsCampaignAdmin extends AbstractAdmin
     }
 
     /** @param SmsCampaign $object */
-    public function preUpdate($object)
+    public function preUpdate(object $object): void
     {
         $this->updateRecipientCount($object);
     }

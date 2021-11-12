@@ -15,7 +15,7 @@ class FacebookVideoAdmin extends AbstractAdmin
         '_sort_by' => 'position',
     ];
 
-    protected function configureFormFields(FormMapper $formMapper)
+    protected function configureFormFields(FormMapper $formMapper): void
     {
         $formMapper
             ->add('facebookUrl', UrlType::class, [
@@ -40,7 +40,7 @@ class FacebookVideoAdmin extends AbstractAdmin
         ;
     }
 
-    protected function configureListFields(ListMapper $listMapper)
+    protected function configureListFields(ListMapper $listMapper): void
     {
         $listMapper
             ->add('facebookUrl', null, [

@@ -8,7 +8,7 @@ use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
-use Sonata\AdminBundle\Route\RouteCollection;
+use Sonata\AdminBundle\Route\RouteCollectionInterface;
 use Sonata\AdminBundle\Show\ShowMapper;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
@@ -25,7 +25,7 @@ class NewsletterSubscriptionAdmin extends AbstractAdmin
     /** @var EventDispatcherInterface */
     private $eventDispatcher;
 
-    protected function configureFormFields(FormMapper $formMapper)
+    protected function configureFormFields(FormMapper $formMapper): void
     {
         $formMapper
             ->add('email', null, [
@@ -37,9 +37,9 @@ class NewsletterSubscriptionAdmin extends AbstractAdmin
         ;
     }
 
-    protected function configureShowFields(ShowMapper $show)
+    protected function configureShowFields(ShowMapper $showMapper): void
     {
-        $show
+        $showMapper
             ->add('email', null, [
                 'label' => 'Adresse e-mail',
             ])
@@ -52,7 +52,7 @@ class NewsletterSubscriptionAdmin extends AbstractAdmin
         ;
     }
 
-    protected function configureDatagridFilters(DatagridMapper $datagridMapper)
+    protected function configureDatagridFilters(DatagridMapper $datagridMapper): void
     {
         $datagridMapper
             ->add('email', null, [
@@ -65,7 +65,7 @@ class NewsletterSubscriptionAdmin extends AbstractAdmin
         ;
     }
 
-    protected function configureListFields(ListMapper $listMapper)
+    protected function configureListFields(ListMapper $listMapper): void
     {
         $listMapper
             ->addIdentifier('email', null, [
@@ -88,12 +88,12 @@ class NewsletterSubscriptionAdmin extends AbstractAdmin
         ;
     }
 
-    public function postRemove($object)
+    public function postRemove(object $object): void
     {
         $this->eventDispatcher->dispatch(new NewsletterEvent($object), Events::UNSUBSCRIBE);
     }
 
-    public function postUpdate($object)
+    public function postUpdate(object $object): void
     {
         $this->eventDispatcher->dispatch(new NewsletterEvent($object), Events::UPDATE);
     }
@@ -106,7 +106,7 @@ class NewsletterSubscriptionAdmin extends AbstractAdmin
         $this->eventDispatcher = $eventDispatcher;
     }
 
-    protected function configureRoutes(RouteCollection $collection)
+    protected function configureRoutes(RouteCollectionInterface $collection): void
     {
         $collection->remove('create');
     }

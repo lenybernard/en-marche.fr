@@ -26,7 +26,7 @@ class LegislativeDistrictZoneAdmin extends AbstractAdmin
         'validation_groups' => ['Admin'],
     ];
 
-    protected function configureListFields(ListMapper $mapper)
+    protected function configureListFields(ListMapper $mapper): void
     {
         $mapper
             ->add('areaCode', null, [
@@ -48,9 +48,9 @@ class LegislativeDistrictZoneAdmin extends AbstractAdmin
         ;
     }
 
-    protected function configureShowFields(ShowMapper $mapper)
+    protected function configureShowFields(ShowMapper $showMapper): void
     {
-        $mapper
+        $showMapper
             ->add('id', null, [
                 'label' => 'ID',
             ])
@@ -66,7 +66,7 @@ class LegislativeDistrictZoneAdmin extends AbstractAdmin
         ;
     }
 
-    protected function configureFormFields(FormMapper $mapper)
+    protected function configureFormFields(FormMapper $mapper): void
     {
         $mapper
             ->with('Informations générales', ['class' => 'col-md-6'])

@@ -17,7 +17,7 @@ class DonationTagAdmin extends AbstractAdmin
         '_sort_by' => 'label',
     ];
 
-    protected function configureFormFields(FormMapper $formMapper)
+    protected function configureFormFields(FormMapper $formMapper): void
     {
         $formMapper
             ->add('label', TextType::class, [
@@ -31,7 +31,7 @@ class DonationTagAdmin extends AbstractAdmin
         ;
     }
 
-    protected function configureListFields(ListMapper $listMapper)
+    protected function configureListFields(ListMapper $listMapper): void
     {
         $listMapper
             ->add('label', null, [

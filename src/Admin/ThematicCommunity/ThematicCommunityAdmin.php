@@ -25,7 +25,7 @@ class ThematicCommunityAdmin extends AbstractAdmin
         $this->imageManager = $imageManager;
     }
 
-    protected function configureListFields(ListMapper $listMapper)
+    protected function configureListFields(ListMapper $listMapper): void
     {
         $listMapper
             ->addIdentifier('name', null, [
@@ -51,7 +51,7 @@ class ThematicCommunityAdmin extends AbstractAdmin
         ;
     }
 
-    protected function configureFormFields(FormMapper $formMapper)
+    protected function configureFormFields(FormMapper $formMapper): void
     {
         $formMapper
             ->add('name', TextType::class, [
@@ -73,7 +73,7 @@ class ThematicCommunityAdmin extends AbstractAdmin
     /**
      * @param ThematicCommunity $thematicCommunity
      */
-    public function postRemove($thematicCommunity)
+    public function postRemove(object $thematicCommunity): void
     {
         parent::postRemove($thematicCommunity);
 
@@ -83,7 +83,7 @@ class ThematicCommunityAdmin extends AbstractAdmin
     /**
      * @param ThematicCommunity $thematicCommunity
      */
-    public function prePersist($thematicCommunity)
+    public function prePersist(object $thematicCommunity): void
     {
         parent::prePersist($thematicCommunity);
 
@@ -95,7 +95,7 @@ class ThematicCommunityAdmin extends AbstractAdmin
     /**
      * @param ThematicCommunity $thematicCommunity
      */
-    public function preUpdate($thematicCommunity)
+    public function preUpdate(object $thematicCommunity): void
     {
         parent::preUpdate($thematicCommunity);
 

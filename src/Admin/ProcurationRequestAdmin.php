@@ -30,7 +30,7 @@ class ProcurationRequestAdmin extends AbstractAdmin
         'validation_groups' => ['admin'],
     ];
 
-    protected function configureFormFields(FormMapper $formMapper)
+    protected function configureFormFields(FormMapper $formMapper): void
     {
         $formMapper
             ->with('Coordonnées', ['class' => 'col-md-6'])
@@ -111,7 +111,7 @@ class ProcurationRequestAdmin extends AbstractAdmin
         ;
     }
 
-    protected function configureShowFields(ShowMapper $showMapper)
+    protected function configureShowFields(ShowMapper $showMapper): void
     {
         $showMapper
             ->with('Coordonnées', ['class' => 'col-md-4'])
@@ -193,7 +193,7 @@ class ProcurationRequestAdmin extends AbstractAdmin
         ;
     }
 
-    protected function configureDatagridFilters(DatagridMapper $datagridMapper)
+    protected function configureDatagridFilters(DatagridMapper $datagridMapper): void
     {
         $datagridMapper
             ->add('id', null, [
@@ -215,7 +215,7 @@ class ProcurationRequestAdmin extends AbstractAdmin
         ;
     }
 
-    protected function configureListFields(ListMapper $listMapper)
+    protected function configureListFields(ListMapper $listMapper): void
     {
         $listMapper
             ->add('id', null, [

@@ -26,7 +26,7 @@ class JecouteNationalSurveyAdmin extends AbstractAdmin
         '_sort_by' => 'createdAt',
     ];
 
-    protected function configureFormFields(FormMapper $formMapper)
+    protected function configureFormFields(FormMapper $formMapper): void
     {
         $formMapper
             ->with('Questionnaire', ['class' => 'col-md-6'])
@@ -49,7 +49,7 @@ class JecouteNationalSurveyAdmin extends AbstractAdmin
         ;
     }
 
-    protected function configureDatagridFilters(DatagridMapper $datagridMapper)
+    protected function configureDatagridFilters(DatagridMapper $datagridMapper): void
     {
         $datagridMapper
             ->add('name', null, [
@@ -62,7 +62,7 @@ class JecouteNationalSurveyAdmin extends AbstractAdmin
         ;
     }
 
-    protected function configureListFields(ListMapper $listMapper)
+    protected function configureListFields(ListMapper $listMapper): void
     {
         $listMapper
             ->addIdentifier('name', null, [
@@ -102,7 +102,7 @@ class JecouteNationalSurveyAdmin extends AbstractAdmin
     /**
      * @param NationalSurvey $object
      */
-    public function prePersist($object)
+    public function prePersist(object $object): void
     {
         /** @var Administrator $administrator */
         $administrator = $this->security->getUser();

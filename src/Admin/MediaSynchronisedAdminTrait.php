@@ -31,7 +31,7 @@ trait MediaSynchronisedAdminTrait
     /**
      * @param EntityMediaInterface $object
      */
-    public function prePersist($object): void
+    public function prePersist(object $object): void
     {
         if (!$object->getMedia() || !$object->getMedia()->getFile()) {
             return;
@@ -48,7 +48,7 @@ trait MediaSynchronisedAdminTrait
     /**
      * @param EntityMediaInterface $object
      */
-    public function preUpdate($object): void
+    public function preUpdate(object $object): void
     {
         if (!$object->getMedia() || !$object->getMedia()->getFile()) {
             return;

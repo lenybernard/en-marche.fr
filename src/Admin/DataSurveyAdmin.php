@@ -6,7 +6,8 @@ use App\Repository\Jecoute\SurveyRepository;
 use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
-use Sonata\AdminBundle\Route\RouteCollection;
+use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
+use Sonata\AdminBundle\Route\RouteCollectionInterface;
 
 class DataSurveyAdmin extends AbstractAdmin
 {
@@ -20,32 +21,28 @@ class DataSurveyAdmin extends AbstractAdmin
     /** @var SurveyRepository */
     private $surveyRepository;
 
-    public function createQuery($context = 'list')
+    protected function configureQuery(ProxyQueryInterface $query): ProxyQueryInterface
     {
-        $queryBuilder = parent::createQuery($context);
+        $query
+            ->leftJoin('o.survey', 'survey')
+            ->leftJoin('survey.questions', 'surveyQuestion')
+            ->leftJoin('surveyQuestion.question', 'question')
+            ->leftJoin('surveyQuestion.dataAnswers', 'dataAnswer')
+            ->leftJoin('dataAnswer.selectedChoices', 'selectedChoice')
+            ->leftJoin('o.jemarcheDataSurvey', 'jemarcheDataSurvey')
+            ->leftJoin('o.campaignHistory', 'campaignHistory')
+            ->addSelect('survey', 'surveyQuestion', 'question', 'dataAnswer', 'selectedChoice', 'jemarcheDataSurvey', 'campaignHistory')
+        ;
 
-        if ('list' === $context) {
-            $queryBuilder
-                ->leftJoin('o.survey', 'survey')
-                ->leftJoin('survey.questions', 'surveyQuestion')
-                ->leftJoin('surveyQuestion.question', 'question')
-                ->leftJoin('surveyQuestion.dataAnswers', 'dataAnswer')
-                ->leftJoin('dataAnswer.selectedChoices', 'selectedChoice')
-                ->leftJoin('o.jemarcheDataSurvey', 'jemarcheDataSurvey')
-                ->leftJoin('o.campaignHistory', 'campaignHistory')
-                ->addSelect('survey', 'surveyQuestion', 'question', 'dataAnswer', 'selectedChoice', 'jemarcheDataSurvey', 'campaignHistory')
-            ;
-        }
-
-        return $queryBuilder;
+        return $query;
     }
 
-    protected function configureRoutes(RouteCollection $collection)
+    protected function configureRoutes(RouteCollectionInterface $collection): void
     {
         $collection->clearExcept('list');
     }
 
-    protected function configureDatagridFilters(DatagridMapper $datagridMapper)
+    protected function configureDatagridFilters(DatagridMapper $datagridMapper): void
     {
         $datagridMapper
             ->add('survey', null, [
@@ -55,7 +52,7 @@ class DataSurveyAdmin extends AbstractAdmin
         ;
     }
 
-    protected function configureListFields(ListMapper $listMapper)
+    protected function configureListFields(ListMapper $listMapper): void
     {
         $listMapper
             ->add('type', null, [

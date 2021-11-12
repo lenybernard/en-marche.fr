@@ -5,25 +5,23 @@ namespace App\Admin;
 use App\Algolia\Sonata\Builder\DatagridBuilder;
 use App\Algolia\Sonata\Model\ModelManager;
 use Sonata\AdminBundle\Admin\AbstractAdmin;
-use Sonata\AdminBundle\Route\RouteCollection;
+use Sonata\AdminBundle\Route\RouteCollectionInterface;
 
 class AbstractAlgoliaAdmin extends AbstractAdmin
 {
-    public function getFilterParameters()
+    protected function configureFilterParameters(array $parameters): array
     {
-        $parameters = parent::getFilterParameters();
-
         unset($parameters['_sort_by'], $parameters['_sort_order']);
 
         return $parameters;
     }
 
-    public function getBatchActions()
+    protected function configureBatchActions(array $actions): array
     {
         return [];
     }
 
-    protected function configureRoutes(RouteCollection $collection)
+    protected function configureRoutes(RouteCollectionInterface $collection): void
     {
         $collection->clearExcept('list');
     }

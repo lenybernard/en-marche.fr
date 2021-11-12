@@ -47,7 +47,7 @@ class ReferentAdmin extends AbstractAdmin
         $this->organizationalChartItemRepository = $organizationalChartItemRepository;
     }
 
-    protected function configureDatagridFilters(DatagridMapper $mapper)
+    protected function configureDatagridFilters(DatagridMapper $mapper): void
     {
         $mapper
             ->add('id', null, [
@@ -75,7 +75,7 @@ class ReferentAdmin extends AbstractAdmin
         ;
     }
 
-    protected function configureListFields(ListMapper $mapper)
+    protected function configureListFields(ListMapper $mapper): void
     {
         $mapper
             ->addIdentifier('id', null, [
@@ -119,7 +119,7 @@ class ReferentAdmin extends AbstractAdmin
         ;
     }
 
-    protected function configureFormFields(FormMapper $mapper)
+    protected function configureFormFields(FormMapper $mapper): void
     {
         $mapper
             ->with('Informations personnelles', ['class' => 'col-md-4'])
@@ -208,11 +208,11 @@ class ReferentAdmin extends AbstractAdmin
         $mapper->get('areas')->addModelTransformer($this->dataTransformer);
     }
 
-    protected function configureShowFields(ShowMapper $mapper)
+    protected function configureShowFields(ShowMapper $showMapper): void
     {
         $this->OCItems = $this->organizationalChartItemRepository->getRootNodes();
 
-        $mapper
+        $showMapper
             ->with('Informations générales', ['class' => 'col-md-5'])
                 ->add('id', null, [
                     'label' => 'ID',
@@ -263,7 +263,7 @@ class ReferentAdmin extends AbstractAdmin
         ;
     }
 
-    protected function configureBatchActions($actions)
+    protected function configureBatchActions(array $actions): array
     {
         $actions['exportTeams'] = [
             'label' => 'Exporter les équipes',

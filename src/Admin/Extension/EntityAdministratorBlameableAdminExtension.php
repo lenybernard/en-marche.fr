@@ -19,7 +19,7 @@ class EntityAdministratorBlameableAdminExtension extends AbstractAdminExtension
         $this->security = $security;
     }
 
-    public function configureDatagridFilters(DatagridMapper $datagridMapper)
+    public function configureDatagridFilters(DatagridMapper $datagridMapper): void
     {
         $datagridMapper
             ->add('createdByAdministrator', null, [
@@ -31,7 +31,7 @@ class EntityAdministratorBlameableAdminExtension extends AbstractAdminExtension
         ;
     }
 
-    public function configureListFields(ListMapper $listMapper)
+    public function configureListFields(ListMapper $listMapper): void
     {
         $listMapper
             ->add('_blame', null, [
@@ -54,7 +54,7 @@ class EntityAdministratorBlameableAdminExtension extends AbstractAdminExtension
     /**
      * @param EntityAdministratorBlameableInterface $object
      */
-    public function prePersist(AdminInterface $admin, $object)
+    public function prePersist(AdminInterface $admin, object $object): void
     {
         $administrator = $this->getAdministrator();
 
@@ -64,7 +64,7 @@ class EntityAdministratorBlameableAdminExtension extends AbstractAdminExtension
     /**
      * @param EntityAdministratorBlameableInterface $object
      */
-    public function preUpdate(AdminInterface $admin, $object)
+    public function preUpdate(AdminInterface $admin, object $object): void
     {
         $object->setUpdatedByAdministrator($this->getAdministrator());
     }

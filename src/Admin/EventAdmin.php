@@ -13,7 +13,7 @@ use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
-use Sonata\AdminBundle\Route\RouteCollection;
+use Sonata\AdminBundle\Route\RouteCollectionInterface;
 use Sonata\AdminBundle\Show\ShowMapper;
 use Sonata\CoreBundle\Form\Type\DateRangePickerType;
 use Sonata\DoctrineORMAdminBundle\Datagrid\ProxyQuery;
@@ -50,7 +50,7 @@ class EventAdmin extends AbstractAdmin
         $this->referentTagManager = $referentTagManager;
     }
 
-    public function configureRoutes(RouteCollection $collection)
+    protected function configureRoutes(RouteCollectionInterface $collection): void
     {
         $collection
             ->remove('create')
@@ -71,7 +71,7 @@ class EventAdmin extends AbstractAdmin
         return parent::getTemplate($name);
     }
 
-    protected function configureShowFields(ShowMapper $showMapper)
+    protected function configureShowFields(ShowMapper $showMapper): void
     {
         $showMapper
             ->with('Événement', ['class' => 'col-md-7'])
@@ -143,12 +143,12 @@ class EventAdmin extends AbstractAdmin
         ;
     }
 
-    public function preUpdate($object)
+    public function preUpdate(object $object): void
     {
         $this->dispatcher->dispatch(new CommitteeEventEvent($object->getOrganizer(), $object), Events::EVENT_PRE_UPDATE);
     }
 
-    public function postUpdate($object)
+    public function postUpdate(object $object): void
     {
         $this->referentTagManager->assignReferentLocalTags($object);
 
@@ -157,7 +157,7 @@ class EventAdmin extends AbstractAdmin
         $this->dispatcher->dispatch($event, Events::EVENT_UPDATED);
     }
 
-    protected function configureFormFields(FormMapper $formMapper)
+    protected function configureFormFields(FormMapper $formMapper): void
     {
         $formMapper
             ->with('Événement', ['class' => 'col-md-7'])
@@ -226,7 +226,7 @@ class EventAdmin extends AbstractAdmin
         ;
     }
 
-    protected function configureDatagridFilters(DatagridMapper $datagridMapper)
+    protected function configureDatagridFilters(DatagridMapper $datagridMapper): void
     {
         $datagridMapper
             ->add('name', null, [
@@ -304,7 +304,7 @@ class EventAdmin extends AbstractAdmin
         ;
     }
 
-    protected function configureListFields(ListMapper $listMapper)
+    protected function configureListFields(ListMapper $listMapper): void
     {
         $listMapper
             ->add('name', null, [

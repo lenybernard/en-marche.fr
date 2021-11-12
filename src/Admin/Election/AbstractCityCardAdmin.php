@@ -9,19 +9,19 @@ use App\Entity\Election\MinistryVoteResult;
 use App\Entity\VotePlace;
 use App\Form\EventListener\CityCardListener;
 use Doctrine\ORM\Query\Expr;
-use Doctrine\ORM\QueryBuilder;
 use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
+use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
 use Sonata\AdminBundle\Form\FormMapper;
-use Sonata\AdminBundle\Route\RouteCollection;
+use Sonata\AdminBundle\Route\RouteCollectionInterface;
 use Sonata\DoctrineORMAdminBundle\Datagrid\ProxyQuery;
 use Sonata\DoctrineORMAdminBundle\Filter\CallbackFilter;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 
 class AbstractCityCardAdmin extends AbstractAdmin
 {
-    public function configureRoutes(RouteCollection $collection)
+    protected function configureRoutes(RouteCollectionInterface $collection): void
     {
         $collection->clearExcept([
             'list',
@@ -30,22 +30,19 @@ class AbstractCityCardAdmin extends AbstractAdmin
         ]);
     }
 
-    public function createQuery($context = 'list')
+    protected function configureQuery(ProxyQueryInterface $query): ProxyQueryInterface
     {
-        /** @var QueryBuilder $proxyQuery */
-        $proxyQuery = parent::createQuery($context);
-
-        $proxyQuery
-            ->innerJoin(current($proxyQuery->getRootAliases()).'.city', 'city')
+        $query
+            ->innerJoin(current($query->getRootAliases()).'.city', 'city')
             ->innerJoin('city.department', 'department')
             ->innerJoin('department.region', 'region')
             ->addSelect('city', 'department', 'region')
         ;
 
-        return $proxyQuery;
+        return $query;
     }
 
-    protected function configureFormFields(FormMapper $form)
+    protected function configureFormFields(FormMapper $form): void
     {
         $form
             ->getFormBuilder()
@@ -53,7 +50,7 @@ class AbstractCityCardAdmin extends AbstractAdmin
         ;
     }
 
-    protected function configureDatagridFilters(DatagridMapper $filter)
+    protected function configureDatagridFilters(DatagridMapper $filter): void
     {
         $filter
             ->add('city.name', null, [
@@ -238,7 +235,7 @@ class AbstractCityCardAdmin extends AbstractAdmin
         ;
     }
 
-    protected function configureListFields(ListMapper $list)
+    protected function configureListFields(ListMapper $list): void
     {
         $list
             ->addIdentifier('city.name', null, [
@@ -266,7 +263,7 @@ class AbstractCityCardAdmin extends AbstractAdmin
         ;
     }
 
-    public function getExportFields()
+    protected function configureExportFields(): array
     {
         return [
             'ID' => 'id',

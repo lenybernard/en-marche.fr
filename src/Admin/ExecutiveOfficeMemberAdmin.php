@@ -34,7 +34,7 @@ class ExecutiveOfficeMemberAdmin extends AbstractAdmin
         $this->imageManager = $imageManager;
     }
 
-    protected function configureFormFields(FormMapper $formMapper)
+    protected function configureFormFields(FormMapper $formMapper): void
     {
         $formMapper
             ->with('Général', ['class' => 'col-md-6'])
@@ -100,7 +100,7 @@ class ExecutiveOfficeMemberAdmin extends AbstractAdmin
         ;
     }
 
-    protected function configureDatagridFilters(DatagridMapper $datagridMapper)
+    protected function configureDatagridFilters(DatagridMapper $datagridMapper): void
     {
         $datagridMapper
             ->add('lastName', null, [
@@ -124,7 +124,7 @@ class ExecutiveOfficeMemberAdmin extends AbstractAdmin
         ;
     }
 
-    protected function configureListFields(ListMapper $listMapper)
+    protected function configureListFields(ListMapper $listMapper): void
     {
         $listMapper
             ->addIdentifier('firstName', null, [
@@ -174,7 +174,7 @@ class ExecutiveOfficeMemberAdmin extends AbstractAdmin
     /**
      * @param ExecutiveOfficeMember $executiveOfficeMember
      */
-    public function postRemove($executiveOfficeMember)
+    public function postRemove(object $executiveOfficeMember): void
     {
         parent::postRemove($executiveOfficeMember);
 
@@ -184,7 +184,7 @@ class ExecutiveOfficeMemberAdmin extends AbstractAdmin
     /**
      * @param ExecutiveOfficeMember $executiveOfficeMember
      */
-    public function prePersist($executiveOfficeMember)
+    public function prePersist(object $executiveOfficeMember): void
     {
         parent::prePersist($executiveOfficeMember);
 
@@ -196,7 +196,7 @@ class ExecutiveOfficeMemberAdmin extends AbstractAdmin
     /**
      * @param ExecutiveOfficeMember $executiveOfficeMember
      */
-    public function preUpdate($executiveOfficeMember)
+    public function preUpdate(object $executiveOfficeMember): void
     {
         parent::preUpdate($executiveOfficeMember);
 

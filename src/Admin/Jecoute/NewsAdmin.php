@@ -59,7 +59,7 @@ class NewsAdmin extends AbstractAdmin
         return parent::getTemplate($name);
     }
 
-    protected function configureFormFields(FormMapper $formMapper)
+    protected function configureFormFields(FormMapper $formMapper): void
     {
         $formMapper
             ->with('Informations', ['class' => 'col-md-6'])
@@ -120,7 +120,7 @@ class NewsAdmin extends AbstractAdmin
         $this->newsHandler->buildTopic($news);
     }
 
-    protected function configureDatagridFilters(DatagridMapper $datagridMapper)
+    protected function configureDatagridFilters(DatagridMapper $datagridMapper): void
     {
         $datagridMapper
             ->add('createdAt', DateRangeFilter::class, [
@@ -147,7 +147,7 @@ class NewsAdmin extends AbstractAdmin
         ;
     }
 
-    protected function configureListFields(ListMapper $listMapper)
+    protected function configureListFields(ListMapper $listMapper): void
     {
         $listMapper
             ->add('title', null, [
@@ -188,7 +188,7 @@ class NewsAdmin extends AbstractAdmin
     /**
      * @param News $object
      */
-    public function postPersist($object)
+    public function postPersist(object $object): void
     {
         parent::postPersist($object);
 

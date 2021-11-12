@@ -20,7 +20,7 @@ class ModuleAdmin extends AbstractAdmin
 {
     use MediaSynchronisedAdminTrait;
 
-    protected function configureFormFields(FormMapper $formMapper)
+    protected function configureFormFields(FormMapper $formMapper): void
     {
         $formMapper
             ->with('Méta-données', ['class' => 'col-md-6'])
@@ -75,7 +75,7 @@ class ModuleAdmin extends AbstractAdmin
         ;
     }
 
-    protected function configureDatagridFilters(DatagridMapper $datagridMapper)
+    protected function configureDatagridFilters(DatagridMapper $datagridMapper): void
     {
         $datagridMapper
             ->add('title', null, [
@@ -89,7 +89,7 @@ class ModuleAdmin extends AbstractAdmin
         ;
     }
 
-    protected function configureListFields(ListMapper $listMapper)
+    protected function configureListFields(ListMapper $listMapper): void
     {
         $listMapper
             ->add('_thumbnail', null, [

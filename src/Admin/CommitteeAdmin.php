@@ -16,7 +16,7 @@ use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
-use Sonata\AdminBundle\Route\RouteCollection;
+use Sonata\AdminBundle\Route\RouteCollectionInterface;
 use Sonata\AdminBundle\Show\ShowMapper;
 use Sonata\DoctrineORMAdminBundle\Datagrid\ProxyQuery;
 use Sonata\DoctrineORMAdminBundle\Filter\CallbackFilter;
@@ -66,14 +66,14 @@ class CommitteeAdmin extends AbstractAdmin
         $this->dispatcher = $dispatcher;
     }
 
-    public function getDatagrid()
-    {
-        if (!$this->cachedDatagrid) {
-            $this->cachedDatagrid = new CommitteeDatagrid(parent::getDatagrid(), $this->manager);
-        }
-
-        return $this->cachedDatagrid;
-    }
+//    public function getDatagrid()
+//    {
+//        if (!$this->cachedDatagrid) {
+//            $this->cachedDatagrid = new CommitteeDatagrid(parent::getDatagrid(), $this->manager);
+//        }
+//
+//        return $this->cachedDatagrid;
+//    }
 
     public function getTemplate($name)
     {
@@ -88,7 +88,7 @@ class CommitteeAdmin extends AbstractAdmin
         return parent::getTemplate($name);
     }
 
-    protected function configureRoutes(RouteCollection $collection)
+    protected function configureRoutes(RouteCollectionInterface $collection): void
     {
         $collection
             ->remove('create')
@@ -97,7 +97,7 @@ class CommitteeAdmin extends AbstractAdmin
         ;
     }
 
-    protected function configureShowFields(ShowMapper $showMapper)
+    protected function configureShowFields(ShowMapper $showMapper): void
     {
         $showMapper
             ->with('Comité', ['class' => 'col-md-7'])
@@ -163,12 +163,12 @@ class CommitteeAdmin extends AbstractAdmin
         ;
     }
 
-    public function postUpdate($object)
+    public function postUpdate(object $object): void
     {
         $this->dispatcher->dispatch(new CommitteeEvent($object), Events::COMMITTEE_UPDATED);
     }
 
-    protected function configureFormFields(FormMapper $formMapper)
+    protected function configureFormFields(FormMapper $formMapper): void
     {
         $formMapper
             ->with('Comité', ['class' => 'col-md-7'])
@@ -213,7 +213,7 @@ class CommitteeAdmin extends AbstractAdmin
         ;
     }
 
-    protected function configureDatagridFilters(DatagridMapper $datagridMapper)
+    protected function configureDatagridFilters(DatagridMapper $datagridMapper): void
     {
         $committeeMembershipRepository = $this->committeeMembershipRepository;
         $committeeRepository = $this->committeeRepository;
@@ -364,7 +364,7 @@ class CommitteeAdmin extends AbstractAdmin
         ;
     }
 
-    protected function configureListFields(ListMapper $listMapper)
+    protected function configureListFields(ListMapper $listMapper): void
     {
         $listMapper
             ->add('id', null, [

@@ -61,7 +61,7 @@ use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Form\Type\ModelAutocompleteType;
 use Sonata\AdminBundle\Form\Type\ModelType;
-use Sonata\AdminBundle\Route\RouteCollection;
+use Sonata\AdminBundle\Route\RouteCollectionInterface;
 use Sonata\AdminBundle\Show\ShowMapper;
 use Sonata\DoctrineORMAdminBundle\Datagrid\ProxyQuery;
 use Sonata\DoctrineORMAdminBundle\Filter\CallbackFilter;
@@ -127,7 +127,7 @@ class AdherentAdmin extends AbstractAdmin
         $this->politicalCommitteeManager = $politicalCommitteeManager;
     }
 
-    protected function configureRoutes(RouteCollection $collection)
+    protected function configureRoutes(RouteCollectionInterface $collection): void
     {
         $collection
             ->add('ban', $this->getRouterIdParameter().'/ban')
@@ -140,38 +140,38 @@ class AdherentAdmin extends AbstractAdmin
         ;
     }
 
-    public function configureActionButtons($action, $object = null)
+    protected function configureActionButtons(array $buttonList, string $action, ?object $object = null): array
     {
         if (\in_array($action, ['ban', 'certify', 'uncertify'], true)) {
-            $actions = parent::configureActionButtons('show', $object);
+            $buttonList = parent::configureActionButtons($buttonList, 'show', $object);
         } else {
-            $actions = parent::configureActionButtons($action, $object);
+            $buttonList = parent::configureActionButtons($buttonList, $action, $object);
         }
 
         if (\in_array($action, ['edit', 'show', 'ban', 'certify', 'uncertify'], true)) {
-            $actions['switch_user'] = ['template' => 'admin/adherent/action_button_switch_user.html.twig'];
+            $buttonList['switch_user'] = ['template' => 'admin/adherent/action_button_switch_user.html.twig'];
         }
 
         if (\in_array($action, ['edit', 'show'], true)) {
             if ($this->canAccessObject('ban', $object) && $this->hasRoute('ban')) {
-                $actions['ban'] = ['template' => 'admin/adherent/action_button_ban.html.twig'];
+                $buttonList['ban'] = ['template' => 'admin/adherent/action_button_ban.html.twig'];
             }
 
             if ($this->canAccessObject('certify', $object) && $this->hasRoute('certify')) {
-                $actions['certify'] = ['template' => 'admin/adherent/action_button_certify.html.twig'];
+                $buttonList['certify'] = ['template' => 'admin/adherent/action_button_certify.html.twig'];
             }
 
             if ($this->canAccessObject('uncertify', $object) && $this->hasRoute('uncertify')) {
-                $actions['uncertify'] = ['template' => 'admin/adherent/action_button_uncertify.html.twig'];
+                $buttonList['uncertify'] = ['template' => 'admin/adherent/action_button_uncertify.html.twig'];
             }
         }
 
-        $actions['extract'] = ['template' => 'admin/adherent/extract/extract_button.html.twig'];
+        $buttonList['extract'] = ['template' => 'admin/adherent/extract/extract_button.html.twig'];
 
-        return $actions;
+        return $buttonList;
     }
 
-    protected function configureShowFields(ShowMapper $showMapper)
+    protected function configureShowFields(ShowMapper $showMapper): void
     {
         $showMapper
             ->with('Informations personnelles', ['class' => 'col-md-6'])
@@ -287,7 +287,7 @@ class AdherentAdmin extends AbstractAdmin
         ;
     }
 
-    protected function configureFormFields(FormMapper $formMapper)
+    protected function configureFormFields(FormMapper $formMapper): void
     {
         $formMapper
             ->tab('Général')
@@ -562,7 +562,7 @@ class AdherentAdmin extends AbstractAdmin
         ;
     }
 
-    protected function configureDatagridFilters(DatagridMapper $datagridMapper)
+    protected function configureDatagridFilters(DatagridMapper $datagridMapper): void
     {
         $datagridMapper
             ->add('id', null, [
@@ -1231,19 +1231,16 @@ class AdherentAdmin extends AbstractAdmin
         ;
     }
 
-    /**
-     * @param Adherent $subject
-     */
-    public function setSubject($subject)
-    {
-        if (null === $this->beforeUpdate) {
-            $this->beforeUpdate = clone $subject;
-        }
+//    public function setSubject($subject)
+//    {
+//        if (null === $this->beforeUpdate) {
+//            $this->beforeUpdate = clone $subject;
+//        }
+//
+//        parent::setSubject($subject);
+//    }
 
-        parent::setSubject($subject);
-    }
-
-    public function preUpdate($object)
+    public function preUpdate(object $object): void
     {
         $this->dispatcher->dispatch(new UserEvent($this->beforeUpdate), UserEvents::USER_BEFORE_UPDATE);
     }
@@ -1251,7 +1248,7 @@ class AdherentAdmin extends AbstractAdmin
     /**
      * @param Adherent $object
      */
-    public function postUpdate($object)
+    public function postUpdate(object $object): void
     {
         // No need to handle referent tags update as they are not update-able from admin
         $this->emailSubscriptionHistoryManager->handleSubscriptionsUpdate($object, $subscriptionTypes = $this->beforeUpdate->getSubscriptionTypes());
@@ -1261,7 +1258,7 @@ class AdherentAdmin extends AbstractAdmin
         $this->dispatcher->dispatch(new UserEvent($object), UserEvents::USER_UPDATED);
     }
 
-    protected function configureListFields(ListMapper $listMapper)
+    protected function configureListFields(ListMapper $listMapper): void
     {
         $listMapper
             ->add('id', null, [
@@ -1324,7 +1321,7 @@ class AdherentAdmin extends AbstractAdmin
         ;
     }
 
-    public function getExportFields()
+    protected function configureExportFields(): array
     {
         return [
             'UUID' => 'uuid',

@@ -9,7 +9,8 @@ use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
-use Sonata\CoreBundle\Model\Metadata;
+use Sonata\AdminBundle\Object\Metadata;
+use Sonata\AdminBundle\Object\MetadataInterface;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 
@@ -35,7 +36,7 @@ class MediaAdmin extends AbstractAdmin
     /**
      * @param Media $media
      */
-    public function preRemove($media)
+    public function preRemove(object $media): void
     {
         parent::preRemove($media);
 
@@ -49,7 +50,7 @@ class MediaAdmin extends AbstractAdmin
     /**
      * @param Media $media
      */
-    public function prePersist($media)
+    public function prePersist(object $media): void
     {
         parent::prePersist($media);
 
@@ -60,7 +61,7 @@ class MediaAdmin extends AbstractAdmin
     /**
      * @param Media $media
      */
-    public function preUpdate($media)
+    public function preUpdate(object $media): void
     {
         parent::preUpdate($media);
 
@@ -72,10 +73,8 @@ class MediaAdmin extends AbstractAdmin
 
     /**
      * @param Media $object
-     *
-     * @return Metadata
      */
-    public function getObjectMetadata($object)
+    public function getObjectMetadata(object $object): MetadataInterface
     {
         return new Metadata($object->getName(), null, $object->getPath());
     }
@@ -89,7 +88,7 @@ class MediaAdmin extends AbstractAdmin
         return parent::getTemplate($name);
     }
 
-    protected function configureFormFields(FormMapper $formMapper)
+    protected function configureFormFields(FormMapper $formMapper): void
     {
         $isCreation = null === $this->getSubject() || null === $this->getSubject()->getSize();
 
@@ -111,7 +110,7 @@ class MediaAdmin extends AbstractAdmin
         ;
     }
 
-    protected function configureDatagridFilters(DatagridMapper $datagridMapper)
+    protected function configureDatagridFilters(DatagridMapper $datagridMapper): void
     {
         $datagridMapper
             ->add('name', null, [
@@ -130,7 +129,7 @@ class MediaAdmin extends AbstractAdmin
         ;
     }
 
-    protected function configureListFields(ListMapper $listMapper)
+    protected function configureListFields(ListMapper $listMapper): void
     {
         $listMapper
             ->add('_thumbnail', null, [

@@ -32,7 +32,7 @@ class TeamAdmin extends AbstractAdmin
         $this->teamMemberHistoryManager = $teamMemberHistoryManager;
     }
 
-    protected function configureFormFields(FormMapper $formMapper)
+    protected function configureFormFields(FormMapper $formMapper): void
     {
         $formMapper
             ->with('Informations ⚙️', ['class' => 'col-md-6'])
@@ -56,7 +56,7 @@ class TeamAdmin extends AbstractAdmin
         ;
     }
 
-    protected function configureDatagridFilters(DatagridMapper $filter)
+    protected function configureDatagridFilters(DatagridMapper $filter): void
     {
         $filter
             ->add('name', null, [
@@ -71,7 +71,7 @@ class TeamAdmin extends AbstractAdmin
         ;
     }
 
-    protected function configureListFields(ListMapper $listMapper)
+    protected function configureListFields(ListMapper $listMapper): void
     {
         $listMapper
             ->addIdentifier('name', null, [
@@ -91,22 +91,19 @@ class TeamAdmin extends AbstractAdmin
         ;
     }
 
-    /**
-     * @param Team $subject
-     */
-    public function setSubject($subject)
-    {
-        if (null === $this->beforeUpdate) {
-            $this->beforeUpdate = clone $subject;
-        }
-
-        parent::setSubject($subject);
-    }
+//    public function setSubject($subject)
+//    {
+//        if (null === $this->beforeUpdate) {
+//            $this->beforeUpdate = clone $subject;
+//        }
+//
+//        parent::setSubject($subject);
+//    }
 
     /**
      * @param Team $object
      */
-    public function postPersist($object)
+    public function postPersist(object $object): void
     {
         $this->teamMemberHistoryManager->handleChanges($object);
     }
@@ -114,7 +111,7 @@ class TeamAdmin extends AbstractAdmin
     /**
      * @param Team $object
      */
-    public function postUpdate($object)
+    public function postUpdate(object $object): void
     {
         $this->teamMemberHistoryManager->handleChanges($object, $this->beforeUpdate);
     }

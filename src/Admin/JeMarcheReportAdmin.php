@@ -18,9 +18,9 @@ class JeMarcheReportAdmin extends AbstractAdmin
         '_sort_by' => 'createdAt',
     ];
 
-    protected function configureShowFields(ShowMapper $show)
+    protected function configureShowFields(ShowMapper $showMapper): void
     {
-        $show
+        $showMapper
             ->add('type', null, [
                 'label' => 'Type',
             ])
@@ -48,7 +48,7 @@ class JeMarcheReportAdmin extends AbstractAdmin
         ;
     }
 
-    protected function configureDatagridFilters(DatagridMapper $datagridMapper)
+    protected function configureDatagridFilters(DatagridMapper $datagridMapper): void
     {
         $datagridMapper
             ->add('type', null, [
@@ -63,7 +63,7 @@ class JeMarcheReportAdmin extends AbstractAdmin
         ;
     }
 
-    protected function configureListFields(ListMapper $listMapper)
+    protected function configureListFields(ListMapper $listMapper): void
     {
         $listMapper
             ->add('type', null, [
@@ -97,7 +97,7 @@ class JeMarcheReportAdmin extends AbstractAdmin
         ;
     }
 
-    public function getExportFields()
+    protected function configureExportFields(): array
     {
         return [
             'id',

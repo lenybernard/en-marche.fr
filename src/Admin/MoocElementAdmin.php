@@ -10,13 +10,13 @@ use App\Form\Admin\BaseFileType;
 use App\Form\AttachmentLinkType;
 use App\Form\ImageType;
 use App\Form\PurifiedTextareaType;
-use Doctrine\ORM\QueryBuilder;
 use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
+use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Form\Type\CollectionType;
-use Sonata\AdminBundle\Route\RouteCollection;
+use Sonata\AdminBundle\Route\RouteCollectionInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -25,17 +25,15 @@ use Symfony\Component\Form\Extension\Core\Type\UrlType;
 
 class MoocElementAdmin extends AbstractAdmin implements ImageUploadAdminInterface
 {
-    public function createQuery($context = 'list')
+    protected function configureQuery(ProxyQueryInterface $query): ProxyQueryInterface
     {
-        /** @var QueryBuilder $proxyQuery */
-        $proxyQuery = parent::createQuery($context);
-        $proxyQuery->addOrderBy('o.chapter', 'ASC');
-        $proxyQuery->addOrderBy('o.position', 'ASC');
+        $query->addOrderBy('o.chapter', 'ASC');
+        $query->addOrderBy('o.position', 'ASC');
 
-        return $proxyQuery;
+        return $query;
     }
 
-    protected function configureFormFields(FormMapper $formMapper)
+    protected function configureFormFields(FormMapper $formMapper): void
     {
         $formMapper
             ->tab('Général')
@@ -110,7 +108,7 @@ class MoocElementAdmin extends AbstractAdmin implements ImageUploadAdminInterfac
         $this->addMediaTab($formMapper);
     }
 
-    protected function configureDatagridFilters(DatagridMapper $datagridMapper)
+    protected function configureDatagridFilters(DatagridMapper $datagridMapper): void
     {
         $datagridMapper
             ->add('title', null, [
@@ -124,7 +122,7 @@ class MoocElementAdmin extends AbstractAdmin implements ImageUploadAdminInterfac
         ;
     }
 
-    protected function configureListFields(ListMapper $listMapper)
+    protected function configureListFields(ListMapper $listMapper): void
     {
         $listMapper
             ->addIdentifier('title', null, [
@@ -162,7 +160,7 @@ class MoocElementAdmin extends AbstractAdmin implements ImageUploadAdminInterfac
         ;
     }
 
-    protected function configureRoutes(RouteCollection $collection)
+    protected function configureRoutes(RouteCollectionInterface $collection): void
     {
         $collection->remove('show');
         $collection->add('move', $this->getRouterIdParameter().'/move/{position}');

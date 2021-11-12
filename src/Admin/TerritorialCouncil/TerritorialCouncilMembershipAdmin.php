@@ -7,7 +7,7 @@ use App\Form\TerritorialCouncil\TerritorialCouncilQualityChoiceType;
 use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
-use Sonata\AdminBundle\Route\RouteCollection;
+use Sonata\AdminBundle\Route\RouteCollectionInterface;
 use Sonata\DoctrineORMAdminBundle\Datagrid\ProxyQuery;
 use Sonata\DoctrineORMAdminBundle\Filter\CallbackFilter;
 use Sonata\DoctrineORMAdminBundle\Filter\DateRangeFilter;
@@ -23,7 +23,7 @@ class TerritorialCouncilMembershipAdmin extends AbstractAdmin
         '_sort_by' => 'id',
     ];
 
-    protected function configureRoutes(RouteCollection $collection)
+    protected function configureRoutes(RouteCollectionInterface $collection): void
     {
         $collection->clearExcept(['list']);
     }
@@ -37,7 +37,7 @@ class TerritorialCouncilMembershipAdmin extends AbstractAdmin
         return parent::getTemplate($name);
     }
 
-    protected function configureDatagridFilters(DatagridMapper $filter)
+    protected function configureDatagridFilters(DatagridMapper $filter): void
     {
         $filter
             ->add('territorialCouncil', null, [
@@ -137,7 +137,7 @@ class TerritorialCouncilMembershipAdmin extends AbstractAdmin
         ;
     }
 
-    protected function configureListFields(ListMapper $listMapper)
+    protected function configureListFields(ListMapper $listMapper): void
     {
         $listMapper
             ->add('adherent', null, [

@@ -22,9 +22,9 @@ class NationalRegionAdmin extends AbstractRegionAdmin
     /** @var RegionRepository */
     private $regionRepository;
 
-    public function configureActionButtons($action, $object = null)
+    protected function configureActionButtons(array $buttonList, string $action, ?object $object = null): array
     {
-        $list = parent::configureActionButtons($action, $object);
+        $list = parent::configureActionButtons($buttonList, $action, $object);
 
         if ($this->regionRepository->hasNationalCampaign()) {
             unset($list['create']);
@@ -38,7 +38,7 @@ class NationalRegionAdmin extends AbstractRegionAdmin
         return [Zone::COUNTRY];
     }
 
-    protected function configureListFields(ListMapper $listMapper)
+    protected function configureListFields(ListMapper $listMapper): void
     {
         parent::configureListFields($listMapper);
 
@@ -48,7 +48,7 @@ class NationalRegionAdmin extends AbstractRegionAdmin
         ;
     }
 
-    protected function configureFormFields(FormMapper $formMapper)
+    protected function configureFormFields(FormMapper $formMapper): void
     {
         parent::configureFormFields($formMapper);
 

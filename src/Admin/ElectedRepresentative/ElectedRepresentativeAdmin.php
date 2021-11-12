@@ -25,8 +25,9 @@ use Misd\PhoneNumberBundle\Form\Type\PhoneNumberType;
 use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
+use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
 use Sonata\AdminBundle\Form\FormMapper;
-use Sonata\AdminBundle\Route\RouteCollection;
+use Sonata\AdminBundle\Route\RouteCollectionInterface;
 use Sonata\AdminBundle\Show\ShowMapper;
 use Sonata\DoctrineORMAdminBundle\Datagrid\ProxyQuery;
 use Sonata\DoctrineORMAdminBundle\Filter\CallbackFilter;
@@ -71,7 +72,7 @@ class ElectedRepresentativeAdmin extends AbstractAdmin
         $this->userListDefinitionHistoryManager = $userListDefinitionHistoryManager;
     }
 
-    protected function configureRoutes(RouteCollection $collection)
+    protected function configureRoutes(RouteCollectionInterface $collection): void
     {
         $collection
             ->remove('show')
@@ -80,9 +81,8 @@ class ElectedRepresentativeAdmin extends AbstractAdmin
         ;
     }
 
-    public function createQuery($context = 'list')
+    protected function configureQuery(ProxyQueryInterface $query): ProxyQueryInterface
     {
-        $query = parent::createQuery();
         $alias = $query->getRootAlias();
 
         $query
@@ -94,7 +94,7 @@ class ElectedRepresentativeAdmin extends AbstractAdmin
         return $query;
     }
 
-    protected function configureListFields(ListMapper $listMapper)
+    protected function configureListFields(ListMapper $listMapper): void
     {
         $listMapper
             ->add('lastName', null, [
@@ -126,7 +126,7 @@ class ElectedRepresentativeAdmin extends AbstractAdmin
         ;
     }
 
-    protected function configureShowFields(ShowMapper $showMapper)
+    protected function configureShowFields(ShowMapper $showMapper): void
     {
         $showMapper
             ->with('Identité', ['class' => 'col-md-6'])
@@ -169,7 +169,7 @@ class ElectedRepresentativeAdmin extends AbstractAdmin
         ;
     }
 
-    protected function configureFormFields(FormMapper $formMapper)
+    protected function configureFormFields(FormMapper $formMapper): void
     {
         $formMapper
             ->with('Identité', ['class' => 'col-md-6'])
@@ -315,7 +315,7 @@ class ElectedRepresentativeAdmin extends AbstractAdmin
         }
     }
 
-    protected function configureDatagridFilters(DatagridMapper $datagridMapper)
+    protected function configureDatagridFilters(DatagridMapper $datagridMapper): void
     {
         $datagridMapper
             ->add('lastName', null, [
@@ -535,24 +535,21 @@ class ElectedRepresentativeAdmin extends AbstractAdmin
         ;
     }
 
-    /**
-     * @param ElectedRepresentative $subject
-     */
-    public function setSubject($subject)
-    {
-        if (null === $this->userListDefinitionsBeforeUpdate) {
-            $this->userListDefinitionsBeforeUpdate = $subject->getUserListDefinitions()->toArray();
-
-            $this->dispatcher->dispatch(new ElectedRepresentativeEvent($subject), ElectedRepresentativeEvents::BEFORE_UPDATE);
-        }
-
-        parent::setSubject($subject);
-    }
+//    public function setSubject($subject)
+//    {
+//        if (null === $this->userListDefinitionsBeforeUpdate) {
+//            $this->userListDefinitionsBeforeUpdate = $subject->getUserListDefinitions()->toArray();
+//
+//            $this->dispatcher->dispatch(new ElectedRepresentativeEvent($subject), ElectedRepresentativeEvents::BEFORE_UPDATE);
+//        }
+//
+//        parent::setSubject($subject);
+//    }
 
     /**
      * @param ElectedRepresentative $object
      */
-    public function preUpdate($object)
+    public function preUpdate(object $object): void
     {
         parent::preUpdate($object);
 
@@ -562,14 +559,14 @@ class ElectedRepresentativeAdmin extends AbstractAdmin
     /**
      * @param ElectedRepresentative $object
      */
-    public function postUpdate($object)
+    public function postUpdate(object $object): void
     {
         parent::postUpdate($object);
 
         $this->dispatcher->dispatch(new ElectedRepresentativeEvent($object), ElectedRepresentativeEvents::POST_UPDATE);
     }
 
-    public function getExportFields()
+    protected function configureExportFields(): array
     {
         return [
             'Nom' => 'lastName',
@@ -580,7 +577,7 @@ class ElectedRepresentativeAdmin extends AbstractAdmin
         ];
     }
 
-    public function getExportFormats()
+    public function getExportFormats(): array
     {
         return ['csv', 'xls'];
     }

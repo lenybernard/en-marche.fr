@@ -62,37 +62,34 @@ class DonationAdmin extends AbstractAdmin
         $this->dispatcher = $dispatcher;
     }
 
-    public function configureActionButtons($action, $object = null)
+    protected function configureActionButtons(array $buttonList, string $action, ?object $object = null): array
     {
-        $actions = parent::configureActionButtons($action, $object);
+        $buttonList = parent::configureActionButtons($buttonList, $action, $object);
 
         if (\in_array($action, ['edit'], true)) {
-            $actions['refund'] = ['template' => 'admin/donation/action_button_refund.html.twig'];
+            $buttonList['refund'] = ['template' => 'admin/donation/action_button_refund.html.twig'];
         }
 
-        return $actions;
+        return $buttonList;
     }
 
-    /**
-     * @param Donation|null $object
-     */
-    public function hasAccess($action, $object = null)
-    {
-        if ($object && 'delete' === $action && $object->isCB()) {
-            return false;
-        }
+//    public function hasAccess($action, $object = null)
+//    {
+//        if ($object && 'delete' === $action && $object->isCB()) {
+//            return false;
+//        }
+//
+//        return parent::hasAccess($action, $object);
+//    }
 
-        return parent::hasAccess($action, $object);
-    }
-
-    public function configureBatchActions($actions)
+    protected function configureBatchActions(array $actions): array
     {
         unset($actions['delete']);
 
         return $actions;
     }
 
-    protected function configureFormFields(FormMapper $form)
+    protected function configureFormFields(FormMapper $form): void
     {
         /** @var Donation $donation */
         $donation = $this->getSubject();
@@ -196,7 +193,7 @@ class DonationAdmin extends AbstractAdmin
         ;
     }
 
-    protected function configureDatagridFilters(DatagridMapper $datagridMapper)
+    protected function configureDatagridFilters(DatagridMapper $datagridMapper): void
     {
         $datagridMapper
             ->add('donator', ModelAutocompleteFilter::class, [
@@ -412,7 +409,7 @@ class DonationAdmin extends AbstractAdmin
         ;
     }
 
-    protected function configureListFields(ListMapper $listMapper)
+    protected function configureListFields(ListMapper $listMapper): void
     {
         $listMapper
             ->add('donator', null, [
@@ -449,50 +446,50 @@ class DonationAdmin extends AbstractAdmin
         ;
     }
 
-    public function getDataSourceIterator()
-    {
-        PhpConfigurator::disableMemoryLimit();
-
-        return new IteratorCallbackSourceIterator($this->getDonationIterator(), function (array $donation) {
-            /** @var Donation $donation */
-            $donation = $donation[0];
-            $donator = $donation->getDonator();
-            $referenceDonation = $donator->getReferenceDonation();
-            $adherent = $donator->getAdherent();
-
-            $phone = $adherent instanceof Adherent ? PhoneNumberUtils::format($adherent->getPhone()) : null;
-
-            return [
-                'id' => $donation->getId(),
-                'Montant' => $donation->getAmountInEuros(),
-                'Code don' => $donation->getCode(),
-                'Date' => $donation->getCreatedAt()->format('Y/m/d H:i:s'),
-                'Type' => $donation->getType(),
-                'Don récurrent' => $donation->hasSubscription(),
-                'Status' => $donation->getStatus(),
-                'Nationalité' => $donation->getNationality(),
-                'Addresse' => $donation->getAddress(),
-                'Code postal' => $donation->getPostalCode(),
-                'Ville' => $donation->getCityName(),
-                'Pays' => $donation->getCountry(),
-                'Numéro donateur' => $donator->getIdentifier(),
-                'Nom' => $donator->getLastName(),
-                'Prénom' => $donator->getFirstName(),
-                'Civilité' => $donator->getGender(),
-                'Adresse e-mail' => $donator->getEmailAddress(),
-                'Ville du donateur' => $donator->getCity(),
-                'Pays du donateur' => $donator->getCountry(),
-                'Adresse de référence' => $referenceDonation ? $referenceDonation->getAddress() : null,
-                'Code postal de référence' => $referenceDonation ? $referenceDonation->getPostalCode() : null,
-                'Ville de référence' => $referenceDonation ? $referenceDonation->getCityName() : null,
-                'Pays de référence' => $referenceDonation ? $referenceDonation->getCountry() : null,
-                'Tags du donateur' => implode(', ', $donator->getTags()->toArray()),
-                'Transactions' => $donation->hasSubscription() ? implode(', ', $donation->getTransactions()->toArray()) : null,
-                'Adhérent' => $adherent instanceof Adherent,
-                'Téléphone adhérent' => $phone,
-            ];
-        });
-    }
+//    public function getDataSourceIterator()
+//    {
+//        PhpConfigurator::disableMemoryLimit();
+//
+//        return new IteratorCallbackSourceIterator($this->getDonationIterator(), function (array $donation) {
+//            /** @var Donation $donation */
+//            $donation = $donation[0];
+//            $donator = $donation->getDonator();
+//            $referenceDonation = $donator->getReferenceDonation();
+//            $adherent = $donator->getAdherent();
+//
+//            $phone = $adherent instanceof Adherent ? PhoneNumberUtils::format($adherent->getPhone()) : null;
+//
+//            return [
+//                'id' => $donation->getId(),
+//                'Montant' => $donation->getAmountInEuros(),
+//                'Code don' => $donation->getCode(),
+//                'Date' => $donation->getCreatedAt()->format('Y/m/d H:i:s'),
+//                'Type' => $donation->getType(),
+//                'Don récurrent' => $donation->hasSubscription(),
+//                'Status' => $donation->getStatus(),
+//                'Nationalité' => $donation->getNationality(),
+//                'Addresse' => $donation->getAddress(),
+//                'Code postal' => $donation->getPostalCode(),
+//                'Ville' => $donation->getCityName(),
+//                'Pays' => $donation->getCountry(),
+//                'Numéro donateur' => $donator->getIdentifier(),
+//                'Nom' => $donator->getLastName(),
+//                'Prénom' => $donator->getFirstName(),
+//                'Civilité' => $donator->getGender(),
+//                'Adresse e-mail' => $donator->getEmailAddress(),
+//                'Ville du donateur' => $donator->getCity(),
+//                'Pays du donateur' => $donator->getCountry(),
+//                'Adresse de référence' => $referenceDonation ? $referenceDonation->getAddress() : null,
+//                'Code postal de référence' => $referenceDonation ? $referenceDonation->getPostalCode() : null,
+//                'Ville de référence' => $referenceDonation ? $referenceDonation->getCityName() : null,
+//                'Pays de référence' => $referenceDonation ? $referenceDonation->getCountry() : null,
+//                'Tags du donateur' => implode(', ', $donator->getTags()->toArray()),
+//                'Transactions' => $donation->hasSubscription() ? implode(', ', $donation->getTransactions()->toArray()) : null,
+//                'Adhérent' => $adherent instanceof Adherent,
+//                'Téléphone adhérent' => $phone,
+//            ];
+//        });
+//    }
 
     private function getDonationIterator(): \Iterator
     {
@@ -518,7 +515,7 @@ class DonationAdmin extends AbstractAdmin
     /**
      * @param Donation $donation
      */
-    public function prePersist($donation)
+    public function prePersist(object $donation): void
     {
         parent::prePersist($donation);
 
@@ -530,7 +527,7 @@ class DonationAdmin extends AbstractAdmin
     /**
      * @param Donation $donation
      */
-    public function preUpdate($donation)
+    public function preUpdate(object $donation): void
     {
         parent::preUpdate($donation);
 
@@ -542,7 +539,7 @@ class DonationAdmin extends AbstractAdmin
     /**
      * @param Donation $donation
      */
-    public function postRemove($donation)
+    public function postRemove(object $donation): void
     {
         parent::postRemove($donation);
 
@@ -555,13 +552,10 @@ class DonationAdmin extends AbstractAdmin
         }
     }
 
-    public function getNewInstance()
+    protected function alterNewInstance(object $object): void
     {
         /** @var Donation $donation */
-        $donation = parent::getNewInstance();
         $donation->setPostAddress(PostAddress::createEmptyAddress());
-
-        return $donation;
     }
 
     public function handleFile(Donation $donation): void

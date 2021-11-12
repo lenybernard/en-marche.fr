@@ -24,7 +24,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 class CandidateAdmin extends AbstractAlgoliaAdmin
 {
-    protected function configureDatagridFilters(DatagridMapper $filter)
+    protected function configureDatagridFilters(DatagridMapper $filter): void
     {
         $filter
             ->add('id', CallbackFilter::class, [
@@ -128,7 +128,7 @@ class CandidateAdmin extends AbstractAlgoliaAdmin
         ;
     }
 
-    protected function configureListFields(ListMapper $list)
+    protected function configureListFields(ListMapper $list): void
     {
         $list
             ->add('id', 'text', [
@@ -179,10 +179,8 @@ class CandidateAdmin extends AbstractAlgoliaAdmin
         ;
     }
 
-    public function getFilterParameters()
+    protected function configureFilterParameters(array $parameters): array
     {
-        $parameters = parent::getFilterParameters();
-
         unset($parameters['_sort_by'], $parameters['_sort_order']);
 
         return $parameters;

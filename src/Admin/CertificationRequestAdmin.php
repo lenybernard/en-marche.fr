@@ -10,7 +10,7 @@ use Doctrine\ORM\Query\Expr;
 use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
-use Sonata\AdminBundle\Route\RouteCollection;
+use Sonata\AdminBundle\Route\RouteCollectionInterface;
 use Sonata\DoctrineORMAdminBundle\Datagrid\ProxyQuery;
 use Sonata\DoctrineORMAdminBundle\Filter\CallbackFilter;
 use Sonata\DoctrineORMAdminBundle\Filter\ChoiceFilter;
@@ -36,7 +36,7 @@ class CertificationRequestAdmin extends AbstractAdmin
         'document' => 'DOCUMENT',
     ];
 
-    public function configureRoutes(RouteCollection $collection)
+    protected function configureRoutes(RouteCollectionInterface $collection): void
     {
         $collection
             ->clearExcept(['list', 'show', 'export'])
@@ -50,32 +50,32 @@ class CertificationRequestAdmin extends AbstractAdmin
     /**
      * @param CertificationRequest|null $object
      */
-    public function configureActionButtons($action, $object = null)
+    protected function configureActionButtons(array $buttonList, string $action, ?object $object = null): array
     {
         if (\in_array($action, ['approve', 'refuse', 'block'], true)) {
-            $actions = parent::configureActionButtons('show', $object);
+            $buttonList = parent::configureActionButtons($buttonList, 'show', $object);
         } else {
-            $actions = parent::configureActionButtons($action, $object);
+            $buttonList = parent::configureActionButtons($buttonList, $action, $object);
         }
 
         if ('show' === $action) {
             if ($this->canAccessObject('approve', $object) && $this->hasRoute('approve')) {
-                $actions['approve'] = ['template' => 'admin/certification_request/action_button_approve.html.twig'];
+                $buttonList['approve'] = ['template' => 'admin/certification_request/action_button_approve.html.twig'];
             }
 
             if ($this->canAccessObject('refuse', $object) && $this->hasRoute('refuse')) {
-                $actions['refuse'] = ['template' => 'admin/certification_request/action_button_refuse.html.twig'];
+                $buttonList['refuse'] = ['template' => 'admin/certification_request/action_button_refuse.html.twig'];
             }
 
             if ($this->canAccessObject('block', $object) && $this->hasRoute('block')) {
-                $actions['block'] = ['template' => 'admin/certification_request/action_button_block.html.twig'];
+                $buttonList['block'] = ['template' => 'admin/certification_request/action_button_block.html.twig'];
             }
         }
 
-        return $actions;
+        return $buttonList;
     }
 
-    protected function configureDatagridFilters(DatagridMapper $datagridMapper)
+    protected function configureDatagridFilters(DatagridMapper $datagridMapper): void
     {
         $datagridMapper
             ->add('adherent.firstName', null, [
@@ -193,7 +193,7 @@ class CertificationRequestAdmin extends AbstractAdmin
         ;
     }
 
-    protected function configureListFields(ListMapper $listMapper)
+    protected function configureListFields(ListMapper $listMapper): void
     {
         $listMapper
             ->addIdentifier('id', null, [
@@ -226,39 +226,39 @@ class CertificationRequestAdmin extends AbstractAdmin
         ;
     }
 
-    public function getDataSourceIterator()
-    {
-        PhpConfigurator::disableMemoryLimit();
-
-        return new IteratorCallbackSourceIterator(
-            $this->getCertificationRequestIterator(),
-            function (array $certificationRequest) {
-                /** @var CertificationRequest $certificationRequest */
-                $certificationRequest = $certificationRequest[0];
-                $adherent = $certificationRequest->getAdherent();
-
-                $phone = PhoneNumberUtils::format($adherent->getPhone());
-                $birthDate = $adherent->getBirthdate();
-
-                return [
-                    'id' => $certificationRequest->getId(),
-                    'Date' => $certificationRequest->getCreatedAt()->format('Y/m/d H:i:s'),
-                    'Status' => $certificationRequest->getStatus(),
-                    'Nom' => $adherent->getLastName(),
-                    'Prénom' => $adherent->getFirstName(),
-                    'Date de naissance' => $birthDate ? $birthDate->format('Y/m/d H:i:s') : null,
-                    'Nationalité' => $adherent->getNationality(),
-                    'Addresse' => $adherent->getAddress(),
-                    'Code postal' => $adherent->getPostalCode(),
-                    'Ville' => $adherent->getCityName(),
-                    'Pays' => $adherent->getCountry(),
-                    'Téléphone adhérent' => $phone,
-                    'Email' => $adherent->getEmailAddress(),
-                    'uuid' => $certificationRequest->getUuid(),
-                ];
-            }
-        );
-    }
+//    public function getDataSourceIterator()
+//    {
+//        PhpConfigurator::disableMemoryLimit();
+//
+//        return new IteratorCallbackSourceIterator(
+//            $this->getCertificationRequestIterator(),
+//            function (array $certificationRequest) {
+//                /** @var CertificationRequest $certificationRequest */
+//                $certificationRequest = $certificationRequest[0];
+//                $adherent = $certificationRequest->getAdherent();
+//
+//                $phone = PhoneNumberUtils::format($adherent->getPhone());
+//                $birthDate = $adherent->getBirthdate();
+//
+//                return [
+//                    'id' => $certificationRequest->getId(),
+//                    'Date' => $certificationRequest->getCreatedAt()->format('Y/m/d H:i:s'),
+//                    'Status' => $certificationRequest->getStatus(),
+//                    'Nom' => $adherent->getLastName(),
+//                    'Prénom' => $adherent->getFirstName(),
+//                    'Date de naissance' => $birthDate ? $birthDate->format('Y/m/d H:i:s') : null,
+//                    'Nationalité' => $adherent->getNationality(),
+//                    'Addresse' => $adherent->getAddress(),
+//                    'Code postal' => $adherent->getPostalCode(),
+//                    'Ville' => $adherent->getCityName(),
+//                    'Pays' => $adherent->getCountry(),
+//                    'Téléphone adhérent' => $phone,
+//                    'Email' => $adherent->getEmailAddress(),
+//                    'uuid' => $certificationRequest->getUuid(),
+//                ];
+//            }
+//        );
+//    }
 
     private function getCertificationRequestIterator(): \Iterator
     {

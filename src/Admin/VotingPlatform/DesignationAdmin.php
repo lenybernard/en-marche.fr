@@ -22,7 +22,7 @@ use Symfony\Component\Form\Extension\Core\Type\NumberType;
  */
 class DesignationAdmin extends AbstractAdmin
 {
-    protected function configureFormFields(FormMapper $form)
+    protected function configureFormFields(FormMapper $form): void
     {
         $form
             ->tab('Général 📜')
@@ -141,7 +141,7 @@ class DesignationAdmin extends AbstractAdmin
         ;
     }
 
-    public function configureDatagridFilters(DatagridMapper $filter)
+    public function configureDatagridFilters(DatagridMapper $filter): void
     {
         $filter
             ->add('type', null, [
@@ -155,7 +155,7 @@ class DesignationAdmin extends AbstractAdmin
         ;
     }
 
-    public function configureListFields(ListMapper $list)
+    public function configureListFields(ListMapper $list): void
     {
         $list
             ->add('id', null, ['label' => '#'])
@@ -174,7 +174,7 @@ class DesignationAdmin extends AbstractAdmin
         ;
     }
 
-    public function toString($object)
+    public function toString(object $object): string
     {
         return 'Désignation';
     }
