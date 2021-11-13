@@ -3,7 +3,7 @@
 namespace App\Entity\Timeline;
 
 use Doctrine\ORM\Mapping as ORM;
-use Knp\DoctrineBehaviors\Model\Translatable\Translation;
+use Knp\DoctrineBehaviors\Model\Translatable\TranslationTrait;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -16,7 +16,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class ManifestoTranslation
 {
-    use Translation;
+    use TranslationTrait;
 
     /**
      * @var int|null

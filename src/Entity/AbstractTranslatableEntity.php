@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use Doctrine\Common\Collections\Collection;
+use Knp\DoctrineBehaviors\Contract\Entity\TranslationInterface;
 
 abstract class AbstractTranslatableEntity
 {
@@ -26,14 +27,14 @@ abstract class AbstractTranslatableEntity
         ];
     }
 
-    abstract public function translate($locale = null, $fallbackToDefault = true);
+    abstract public function translate(?string $locale = null, bool $fallbackToDefault = true): TranslationInterface;
 
     /** @return Collection */
     abstract public function getTranslations();
 
-    abstract public function addTranslation($translation);
+    abstract public function addTranslation(TranslationInterface $translation): void;
 
-    abstract public function removeTranslation($translation);
+    abstract public function removeTranslation(TranslationInterface $translation): void;
 
     abstract public function mergeNewTranslations();
 }

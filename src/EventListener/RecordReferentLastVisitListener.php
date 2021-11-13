@@ -9,6 +9,7 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Event\FilterResponseEvent;
+use Symfony\Component\HttpKernel\Event\ResponseEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
 use Symfony\Component\Security\Core\Security;
 
@@ -32,12 +33,12 @@ class RecordReferentLastVisitListener implements EventSubscriberInterface
         ];
     }
 
-    public function onKernelResponse(FilterResponseEvent $event)
+    public function onKernelResponse(ResponseEvent $event)
     {
         $request = $event->getRequest();
 
         // Stop if not GET or not MasterRequest
-        if (Request::METHOD_GET !== $request->getMethod() || !$event->isMasterRequest()) {
+        if (Request::METHOD_GET !== $request->getMethod() || !$event->isMainRequest()) {
             return;
         }
 
