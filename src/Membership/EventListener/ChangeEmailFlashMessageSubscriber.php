@@ -79,7 +79,7 @@ class ChangeEmailFlashMessageSubscriber implements EventSubscriberInterface
      */
     private function support(ControllerEvent $event): bool
     {
-        if (!$event->isMainRequest() || $event->getRequest()->isXmlHttpRequest()) {
+        if (!$event->isMasterRequest() || $event->getRequest()->isXmlHttpRequest()) {
             return false;
         }
 

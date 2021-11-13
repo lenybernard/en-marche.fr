@@ -441,7 +441,7 @@ class LoadTimelineData extends Fixture
 
         $manager->flush();
 
-        foreach (self::MEASURES as $reference => $metadatas) {
+        foreach (self::MEASURES as $metadatas) {
             $measure = new Measure(
                 $metadatas['status'],
                 array_map(function (string $profileReference) {

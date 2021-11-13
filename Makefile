@@ -84,7 +84,7 @@ db-init: vendor wait-for-db                                                     
 	$(CONSOLE) doctrine:migrations:migrate -n --no-debug
 
 db-diff: vendor wait-for-db                                                                            ## Generate a migration by comparing your current database to your mapping information
-	$(CONSOLE) doctrine:migration:diff --formatted --no-debug
+	$(CONSOLE) doctrine:migration:diff --formatted
 
 db-diff-dump: vendor wait-for-db                                                                       ## Generate a migration by comparing your current database to your mapping information and display it in console
 	$(CONSOLE) doctrine:schema:update --dump-sql

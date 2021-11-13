@@ -3,9 +3,10 @@
 namespace App\Entity;
 
 use Doctrine\Common\Collections\Collection;
+use Knp\DoctrineBehaviors\Contract\Entity\TranslatableInterface;
 use Knp\DoctrineBehaviors\Contract\Entity\TranslationInterface;
 
-abstract class AbstractTranslatableEntity
+abstract class AbstractTranslatableEntity implements TranslatableInterface
 {
     protected function getFieldTranslations(string $field): array
     {
@@ -36,5 +37,5 @@ abstract class AbstractTranslatableEntity
 
     abstract public function removeTranslation(TranslationInterface $translation): void;
 
-    abstract public function mergeNewTranslations();
+    abstract public function mergeNewTranslations(): void;
 }

@@ -88,7 +88,7 @@ class TimelineMeasureAdmin extends AbstractAdmin
             ->add('profiles', null, [
                 'label' => 'Profils',
                 'show_filter' => true,
-            ], null, [
+            ], [
                 'multiple' => true,
                 'query_builder' => function (ProfileRepository $repository) {
                     return $repository->createTranslatedChoicesQueryBuilder();
@@ -97,7 +97,7 @@ class TimelineMeasureAdmin extends AbstractAdmin
             ->add('themes', null, [
                 'label' => 'Thèmes',
                 'show_filter' => true,
-            ], null, [
+            ], [
                 'multiple' => true,
                 'query_builder' => function (ThemeRepository $repository) {
                     return $repository->createTranslatedChoicesQueryBuilder();

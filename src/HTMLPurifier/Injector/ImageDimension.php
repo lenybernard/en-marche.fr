@@ -4,7 +4,7 @@ namespace App\HTMLPurifier\Injector;
 
 class ImageDimension extends \HTMLPurifier_Injector
 {
-//    public $name = 'ImageDimension';
+    public $name = 'ImageDimension';
 
     public $needed = ['img' => ['style']];
 

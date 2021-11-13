@@ -135,7 +135,7 @@ class MediaAdmin extends AbstractAdmin
             ->add('_thumbnail', null, [
                 'label' => 'Miniature',
                 'virtual_field' => true,
-                'template' => 'admin/media/list_thumbnail.html.twig',
+                'template' => 'admin/list/list_thumbnail.html.twig',
             ])
             ->addIdentifier('name', null, [
                 'label' => 'Nom',

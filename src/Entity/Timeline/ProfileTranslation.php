@@ -3,6 +3,7 @@
 namespace App\Entity\Timeline;
 
 use Doctrine\ORM\Mapping as ORM;
+use Knp\DoctrineBehaviors\Contract\Entity\TranslationInterface;
 use Knp\DoctrineBehaviors\Model\Translatable\Translation;
 use Knp\DoctrineBehaviors\Model\Translatable\TranslationTrait;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
@@ -15,7 +16,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @UniqueEntity(fields={"locale", "title"}, errorPath="title")
  * @UniqueEntity(fields={"locale", "slug"}, errorPath="slug")
  */
-class ProfileTranslation
+class ProfileTranslation implements TranslationInterface
 {
     use TranslationTrait;
 
