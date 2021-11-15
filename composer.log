@@ -1,37 +1,32 @@
 Reading ./composer.json (/app/composer.json)
-Loading config file /home/enmarche/.composer/auth.json
 Loading config file ./composer.json (/app/composer.json)
 Checked CA file /etc/ssl/certs/ca-certificates.crt: valid
 Executing command (/app): git branch -a --no-color --no-abbrev -v
 Executing command (/app): git rev-list master..test-composer-cache
-Reading /home/enmarche/.composer/composer.json
-Loading config file /home/enmarche/.composer/auth.json
-Loading config file /home/enmarche/.composer/composer.json (/home/enmarche/.composer/composer.json)
-Loading config file /home/enmarche/.composer/auth.json
-Reading /home/enmarche/.composer/auth.json
+Executing command (/app): git rev-list remotes/origin/master..test-composer-cache
+Failed to initialize global composer: Composer could not find the config file: /home/enmarche/.config/composer/composer.json
+
 Reading /app/vendor/composer/installed.json
-Reading /home/enmarche/.composer/vendor/composer/installed.json
 Loading plugin PackageVersions\Installer (from composer/package-versions-deprecated)
 Loading plugin Endroid\Installer\Installer (from endroid/installer)
 Loading plugin Symfony\Flex\Flex (from symfony/flex)
 Loading plugin Symfony\Thanks\Thanks (from symfony/thanks)
-Running 2.0.14 (2021-05-21 17:03:37) with PHP 7.4.25 on Linux / 4.19.130-boot2docker
+Running 2.0.14 (2021-05-21 17:03:37) with PHP 7.4.25 on Linux / 5.4.0-1021-gcp
 Reading ./composer.lock (/app/composer.lock)
 Installing dependencies from lock file (including require-dev)
 Verifying lock file contents can be installed on current platform.
 Reading ./composer.lock (/app/composer.lock)
 > pre-pool-create: Symfony\Flex\Flex->truncatePackages
-Reading /home/enmarche/.cache/composer/repo/flex/https---api.github.com-repos-symfony-recipes-contents-index.json-ref-flex-main from cache
-Reading /home/enmarche/.cache/composer/repo/flex/https---api.github.com-repos-symfony-recipes-contrib-contents-index.json-ref-flex-main from cache
-Using GitHub token authentication
-Downloading https://api.github.com/repos/symfony/recipes/contents/index.json?ref=flex/main if modified
-Downloading https://api.github.com/repos/symfony/recipes-contrib/contents/index.json?ref=flex/main if modified
-[304] https://api.github.com/repos/symfony/recipes/contents/index.json?ref=flex/main
-[304] https://api.github.com/repos/symfony/recipes-contrib/contents/index.json?ref=flex/main
+Downloading https://api.github.com/repos/symfony/recipes/contents/index.json?ref=flex/main
+Downloading https://api.github.com/repos/symfony/recipes-contrib/contents/index.json?ref=flex/main
+[200] https://api.github.com/repos/symfony/recipes-contrib/contents/index.json?ref=flex/main
+Writing /home/enmarche/.cache/composer/repo/flex/https---api.github.com-repos-symfony-recipes-contrib-contents-index.json-ref-flex-main into cache
+[200] https://api.github.com/repos/symfony/recipes/contents/index.json?ref=flex/main
+Writing /home/enmarche/.cache/composer/repo/flex/https---api.github.com-repos-symfony-recipes-contents-index.json-ref-flex-main into cache
 Generating rules
 Resolving dependencies through SAT
 Looking at all rules.
 
-Dependency resolution completed in 0.001 seconds
+Dependency resolution completed in 0.003 seconds
 Nothing to install, update or remove
 Package csa/guzzle-bundle is abandoned, you should avoid using it. Use symfony/http-client instead.
