@@ -230,7 +230,7 @@ perm:
 vendor: vendor/autoload.php
 
 vendor/autoload.php: composer.lock
-	$(COMPOSER) install -n
+	$(COMPOSER) install -n -vvv
 
 composer.lock: composer.json
 	@echo composer.lock is not up to date.
