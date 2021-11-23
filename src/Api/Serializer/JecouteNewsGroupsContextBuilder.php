@@ -36,7 +36,8 @@ class JecouteNewsGroupsContextBuilder implements SerializerContextBuilderInterfa
         }
 
         $scope = $this->scopeAuthorizationChecker->getScope($request);
-        if (ScopeEnum::NATIONAL === $scope) {
+        if (ScopeEnum::NATIONAL === $scope
+            && \in_array($request->getMethod(), [Request::METHOD_POST, Request::METHOD_PUT])) {
             $context['groups'][] = 'jecoute_news_write_national';
         }
 
