@@ -2,20 +2,19 @@
 
 namespace App\Serializer;
 
-use JMS\Serializer\GenericSerializationVisitor;
 use Sabre\VObject\Component\VCalendar;
 
-class IcalSerializationVisitor extends GenericSerializationVisitor
+class IcalSerializationVisitor
 {
     /**
      * @return string|null
      */
-    public function getResult()
+    public function getResult($data)
     {
-        if (!$root = $this->getRoot()) {
-            return;
-        }
+//        if (!$root = $this->getRoot()) {
+//            return;
+//        }
 
-        return (new VCalendar($root))->serialize();
+        return (new VCalendar())->serialize();
     }
 }

@@ -5,26 +5,24 @@ namespace App\Serializer;
 use App\Entity\Event\BaseEvent;
 use App\Entity\Event\CommitteeEvent;
 use App\Entity\Event\MunicipalEvent;
-use JMS\Serializer\GraphNavigator;
-use JMS\Serializer\Handler\SubscribingHandlerInterface;
 
-class EventICalHandler implements SubscribingHandlerInterface
+class EventICalHandler
 {
     public static function getSubscribingMethods(): array
     {
         return [
-            [
-                'type' => CommitteeEvent::class,
-                'format' => 'ical',
-                'direction' => GraphNavigator::DIRECTION_SERIALIZATION,
-                'method' => 'serialize',
-            ],
-            [
-                'type' => MunicipalEvent::class,
-                'format' => 'ical',
-                'direction' => GraphNavigator::DIRECTION_SERIALIZATION,
-                'method' => 'serialize',
-            ],
+//            [
+//                'type' => CommitteeEvent::class,
+//                'format' => 'ical',
+//                'direction' => GraphNavigator::DIRECTION_SERIALIZATION,
+//                'method' => 'serialize',
+//            ],
+//            [
+//                'type' => MunicipalEvent::class,
+//                'format' => 'ical',
+//                'direction' => GraphNavigator::DIRECTION_SERIALIZATION,
+//                'method' => 'serialize',
+//            ],
         ];
     }
 
@@ -49,6 +47,6 @@ class EventICalHandler implements SubscribingHandlerInterface
             );
         }
 
-        $visitor->setRoot($eventData);
+        //$visitor->setRoot($eventData);
     }
 }

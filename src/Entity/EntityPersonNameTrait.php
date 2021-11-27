@@ -3,7 +3,6 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use JMS\Serializer\Annotation as JMS;
 use Symfony\Component\Serializer\Annotation as SymfonySerializer;
 
 trait EntityPersonNameTrait
@@ -27,10 +26,8 @@ trait EntityPersonNameTrait
      *     "phoning_campaign_history_read_list",
      *     "campaign_replies_list",
      *     "pap_address_list",
+     *     "adherent_change_diff",
      * })
-     *
-     * @JMS\Groups({"adherent_change_diff"})
-     * @JMS\SerializedName("firstName")
      */
     private $firstName = '';
 
@@ -52,10 +49,8 @@ trait EntityPersonNameTrait
      *     "phoning_campaign_history_read_list",
      *     "campaign_replies_list",
      *     "pap_address_list",
+     *     "adherent_change_diff",
      * })
-     *
-     * @JMS\Groups({"adherent_change_diff"})
-     * @JMS\SerializedName("lastName")
      */
     private $lastName = '';
 

@@ -75,6 +75,8 @@ trait EntityIdentityTrait
      *     "phoning_campaign_history_read_list",
      *     "pap_building_block_list",
      *     "campaign_replies_list",
+     *     "committee_read",
+     *     "adherent_change_diff",
      * })
      *
      * @ApiProperty(

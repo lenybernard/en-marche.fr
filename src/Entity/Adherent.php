@@ -49,7 +49,6 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
-use JMS\Serializer\Annotation as JMS;
 use League\OAuth2\Server\Entities\UserEntityInterface;
 use libphonenumber\PhoneNumber;
 use Ramsey\Uuid\Uuid;
@@ -58,7 +57,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\Encoder\EncoderAwareInterface;
 use Symfony\Component\Security\Core\User\EquatableInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
-use Symfony\Component\Serializer\Annotation as SymfonySerializer;
+use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -119,7 +118,7 @@ class Adherent implements UserInterface, UserEntityInterface, GeoPointInterface,
      * @Assert\Regex(pattern="/^[a-z0-9 _-]+$/i", message="adherent.nickname.invalid_syntax", groups={"anonymize"})
      * @Assert\Regex(pattern="/^[a-zÀ-ÿ0-9 .!_-]+$/i", message="adherent.nickname.invalid_extended_syntax")
      *
-     * @SymfonySerializer\Groups({"user_profile", "idea_list_read", "idea_read", "idea_thread_list_read", "idea_thread_comment_read", "idea_vote_read"})
+     * @Groups({"user_profile", "idea_list_read", "idea_read", "idea_thread_list_read", "idea_thread_comment_read", "idea_vote_read"})
      */
     private $nickname;
 
@@ -141,62 +140,61 @@ class Adherent implements UserInterface, UserEntityInterface, GeoPointInterface,
     /**
      * @ORM\Column(length=6, nullable=true)
      *
-     * @JMS\Groups({"adherent_change_diff"})
-     * @SymfonySerializer\Groups({"api_candidacy_read", "profile_read", "phoning_campaign_call_read"})
+     * @Groups({
+     *     "api_candidacy_read",
+     *     "profile_read",
+     *     "phoning_campaign_call_read",
+     *     "adherent_change_diff",
+     * })
      */
     private $gender;
 
     /**
      * @ORM\Column(length=80, nullable=true)
      *
-     * @SymfonySerializer\Groups({"profile_read"})
+     * @Groups({"profile_read"})
      */
     private $customGender;
 
     /**
      * @ORM\Column
      *
-     * @JMS\Groups({"adherent_change_diff"})
-     * @JMS\SerializedName("emailAddress")
-     *
-     * @SymfonySerializer\Groups({"user_profile", "profile_read"})
+     * @Groups({"user_profile", "profile_read", "adherent_change_diff"})
      */
     private $emailAddress;
 
     /**
      * @ORM\Column(type="phone_number", nullable=true)
      *
-     * @SymfonySerializer\Groups({"profile_read", "phoning_campaign_call_read"})
+     * @Groups({"profile_read", "phoning_campaign_call_read"})
      */
     private $phone;
 
     /**
      * @ORM\Column(type="date", nullable=true)
      *
-     * @JMS\Groups({"adherent_change_diff"})
-     *
-     * @SymfonySerializer\Groups({"profile_read"})
+     * @Groups({"profile_read", "adherent_change_diff"})
      */
     private $birthdate;
 
     /**
      * @ORM\Column(nullable=true)
      *
-     * @SymfonySerializer\Groups({"profile_read"})
+     * @Groups({"profile_read"})
      */
     private $position;
 
     /**
      * @ORM\Column(length=10, options={"default": "DISABLED"})
      *
-     * @JMS\Groups({"adherent_change_diff"})
+     * @Groups({"adherent_change_diff"})
      */
     private $status;
 
     /**
      * @ORM\Column(type="datetime")
      *
-     * @SymfonySerializer\Groups({"adherent_autocomplete"})
+     * @Groups({"adherent_autocomplete"})
      */
     private $registeredAt;
 
@@ -226,7 +224,7 @@ class Adherent implements UserInterface, UserEntityInterface, GeoPointInterface,
     /**
      * @ORM\Column(type="simple_array", nullable=true)
      *
-     * @JMS\Groups({"adherent_change_diff"})
+     * @Groups({"adherent_change_diff"})
      */
     private $interests = [];
 
@@ -235,7 +233,7 @@ class Adherent implements UserInterface, UserEntityInterface, GeoPointInterface,
      *
      * @ORM\ManyToMany(targetEntity="SubscriptionType", cascade={"persist"})
      *
-     * @SymfonySerializer\Groups({"profile_read"})
+     * @Groups({"profile_read"})
      */
     private $subscriptionTypes;
 
@@ -333,7 +331,7 @@ class Adherent implements UserInterface, UserEntityInterface, GeoPointInterface,
      *
      * @ORM\OneToOne(targetEntity="App\Entity\TerritorialCouncil\TerritorialCouncilMembership", mappedBy="adherent", cascade={"all"}, orphanRemoval=true)
      *
-     * @JMS\Groups({"adherent_change_diff"})
+     * @Groups({"adherent_change_diff"})
      */
     private $territorialCouncilMembership;
 
@@ -380,7 +378,7 @@ class Adherent implements UserInterface, UserEntityInterface, GeoPointInterface,
     /**
      * @ORM\Column(type="boolean", options={"default": false})
      *
-     * @SymfonySerializer\Groups({"profile_read"})
+     * @Groups({"profile_read"})
      */
     private $adherent = false;
 
@@ -421,7 +419,7 @@ class Adherent implements UserInterface, UserEntityInterface, GeoPointInterface,
     /**
      * @ORM\Column(type="boolean", options={"default": false})
      *
-     * @SymfonySerializer\Groups({"user_profile"})
+     * @Groups({"user_profile"})
      */
     private $commentsCguAccepted = false;
 
@@ -461,7 +459,7 @@ class Adherent implements UserInterface, UserEntityInterface, GeoPointInterface,
      * @Assert\Regex(pattern="#^https?\:\/\/(?:www\.)?facebook.com\/#", message="legislative_candidate.facebook_page_url.invalid", groups="Admin")
      * @Assert\Length(max=255, groups="Admin")
      *
-     * @SymfonySerializer\Groups({"profile_read"})
+     * @Groups({"profile_read"})
      */
     private $facebookPageUrl;
 
@@ -474,7 +472,7 @@ class Adherent implements UserInterface, UserEntityInterface, GeoPointInterface,
      * @Assert\Regex(pattern="#^https?\:\/\/(?:www\.)?twitter.com\/#", message="legislative_candidate.twitter_page_url.invalid", groups="Admin")
      * @Assert\Length(max=255, groups="Admin")
      *
-     * @SymfonySerializer\Groups({"profile_read"})
+     * @Groups({"profile_read"})
      */
     private $twitterPageUrl;
 
@@ -487,7 +485,7 @@ class Adherent implements UserInterface, UserEntityInterface, GeoPointInterface,
      * @Assert\Regex(pattern="#^https?\:\/\/(?:www\.)?linkedin.com\/#", message="legislative_candidate.linkedin_page_url.invalid", groups="Admin")
      * @Assert\Length(max=255, groups="Admin")
      *
-     * @SymfonySerializer\Groups({"profile_read"})
+     * @Groups({"profile_read"})
      */
     private $linkedinPageUrl;
 
@@ -499,7 +497,7 @@ class Adherent implements UserInterface, UserEntityInterface, GeoPointInterface,
      * @Assert\Url(groups="Admin")
      * @Assert\Length(max=255, groups="Admin")
      *
-     * @SymfonySerializer\Groups({"profile_read"})
+     * @Groups({"profile_read"})
      */
     private $telegramPageUrl;
 
@@ -508,7 +506,7 @@ class Adherent implements UserInterface, UserEntityInterface, GeoPointInterface,
      *
      * @ORM\Column(nullable=true)
      *
-     * @SymfonySerializer\Groups({"profile_read"})
+     * @Groups({"profile_read"})
      */
     private $job;
 
@@ -517,7 +515,7 @@ class Adherent implements UserInterface, UserEntityInterface, GeoPointInterface,
      *
      * @ORM\Column(nullable=true)
      *
-     * @SymfonySerializer\Groups({"profile_read"})
+     * @Groups({"profile_read"})
      */
     private $activityArea;
 
@@ -526,7 +524,7 @@ class Adherent implements UserInterface, UserEntityInterface, GeoPointInterface,
      *
      * @ORM\Column(length=2, nullable=true)
      *
-     * @SymfonySerializer\Groups({"profile_read"})
+     * @Groups({"profile_read"})
      */
     private $nationality;
 
@@ -636,7 +634,7 @@ class Adherent implements UserInterface, UserEntityInterface, GeoPointInterface,
      *
      * @ORM\Column(type="datetime", nullable=true)
      *
-     * @JMS\Groups({"adherent_change_diff"})
+     * @Groups({"adherent_change_diff"})
      */
     private $certifiedAt;
 
@@ -652,9 +650,7 @@ class Adherent implements UserInterface, UserEntityInterface, GeoPointInterface,
      *
      * @ORM\Column(type="boolean", options={"default": 0})
      *
-     * @JMS\Groups({"adherent_change_diff"})
-     *
-     * @SymfonySerializer\Groups({"profile_read"})
+     * @Groups({"profile_read", "adherent_change_diff"})
      */
     private $coalitionSubscription = false;
 
@@ -663,16 +659,14 @@ class Adherent implements UserInterface, UserEntityInterface, GeoPointInterface,
      *
      * @ORM\Column(type="boolean", options={"default": 0})
      *
-     * @JMS\Groups({"adherent_change_diff"})
-     *
-     * @SymfonySerializer\Groups({"profile_read"})
+     * @Groups({"profile_read", "adherent_change_diff"})
      */
     private $causeSubscription = false;
 
     /**
      * @ORM\Column(type="boolean", options={"default": 0})
      *
-     * @SymfonySerializer\Groups({"profile_read"})
+     * @Groups({"profile_read"})
      */
     private $coalitionsCguAccepted = false;
 
@@ -745,7 +739,7 @@ class Adherent implements UserInterface, UserEntityInterface, GeoPointInterface,
      *
      * @var PostAddress
      *
-     * @SymfonySerializer\Groups({"profile_read"})
+     * @Groups({"profile_read"})
      */
     protected $postAddress;
 
@@ -890,7 +884,7 @@ class Adherent implements UserInterface, UserEntityInterface, GeoPointInterface,
     }
 
     /**
-     * @SymfonySerializer\Groups({"user_profile"})
+     * @Groups({"user_profile"})
      */
     public function isElected(): bool
     {
@@ -898,7 +892,7 @@ class Adherent implements UserInterface, UserEntityInterface, GeoPointInterface,
     }
 
     /**
-     * @SymfonySerializer\Groups({"user_profile"})
+     * @Groups({"user_profile"})
      */
     public function isLarem(): bool
     {
@@ -1202,7 +1196,7 @@ class Adherent implements UserInterface, UserEntityInterface, GeoPointInterface,
     }
 
     /**
-     * @SymfonySerializer\Groups({"export"})
+     * @Groups({"export"})
      */
     public function getAge(): ?int
     {
@@ -1264,9 +1258,7 @@ class Adherent implements UserInterface, UserEntityInterface, GeoPointInterface,
     }
 
     /**
-     * @JMS\VirtualProperty
-     * @JMS\Groups({"adherent_change_diff"})
-     * @JMS\SerializedName("subscriptionTypeCodes")
+     * @Groups({"adherent_change_diff"})
      */
     public function getSubscriptionTypeCodes(): array
     {
@@ -1485,7 +1477,7 @@ class Adherent implements UserInterface, UserEntityInterface, GeoPointInterface,
     }
 
     /**
-     * @SymfonySerializer\Groups({"export"})
+     * @Groups({"export"})
      */
     public function getRegisteredAt(): ?\DateTime
     {
@@ -1531,7 +1523,7 @@ class Adherent implements UserInterface, UserEntityInterface, GeoPointInterface,
     }
 
     /**
-     * @SymfonySerializer\Groups({"referent"})
+     * @Groups({"referent"})
      *
      * @return string[]
      */
@@ -1994,7 +1986,7 @@ class Adherent implements UserInterface, UserEntityInterface, GeoPointInterface,
     }
 
     /**
-     * @SymfonySerializer\Groups({"user_profile"})
+     * @Groups({"user_profile"})
      */
     public function getUseNickname(): bool
     {
@@ -2065,9 +2057,7 @@ class Adherent implements UserInterface, UserEntityInterface, GeoPointInterface,
     }
 
     /**
-     * @JMS\VirtualProperty
-     * @JMS\Groups({"adherent_change_diff"})
-     * @JMS\SerializedName("referentTagCodes")
+     * @Groups({"adherent_change_diff"})
      */
     public function getReferentTagCodes(): array
     {
@@ -2219,11 +2209,7 @@ class Adherent implements UserInterface, UserEntityInterface, GeoPointInterface,
     }
 
     /**
-     * @JMS\Groups({"adherent_change_diff"})
-     * @JMS\VirtualProperty
-     * @JMS\SerializedName("city")
-     *
-     * @SymfonySerializer\Groups({"export"})
+     * @Groups({"export", "adherent_change_diff"})
      */
     public function getCityName(): ?string
     {
@@ -2284,7 +2270,7 @@ class Adherent implements UserInterface, UserEntityInterface, GeoPointInterface,
     }
 
     /**
-     * @SymfonySerializer\Groups({"user_profile"})
+     * @Groups({"user_profile"})
      */
     public function getDetailedRoles(): array
     {
@@ -2414,7 +2400,7 @@ class Adherent implements UserInterface, UserEntityInterface, GeoPointInterface,
     }
 
     /**
-     * @SymfonySerializer\Groups({"user_profile", "profile_read"})
+     * @Groups({"user_profile", "profile_read"})
      */
     public function isCertified(): bool
     {
@@ -2951,7 +2937,7 @@ class Adherent implements UserInterface, UserEntityInterface, GeoPointInterface,
     }
 
     /**
-     * @SymfonySerializer\Groups({"user_profile"})
+     * @Groups({"user_profile"})
      */
     public function isEmailSubscribed(): bool
     {

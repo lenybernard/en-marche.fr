@@ -6,8 +6,6 @@ use App\Entity\Mooc\Mooc;
 use App\Normalizer\MoocNormalizer;
 use App\Repository\MoocRepository;
 use App\Sitemap\SitemapFactory;
-use JMS\Serializer\SerializationContext;
-use JMS\Serializer\SerializerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -15,6 +13,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
 use Symfony\Component\Serializer\Serializer;
+use Symfony\Component\Serializer\SerializerInterface;
 
 /**
  * @Route("/mooc")
@@ -30,7 +29,7 @@ class MoocController extends AbstractController
             $serializer->serialize(
                 $moocRepository->findAllOrdered(),
                 'json',
-                SerializationContext::create()->setGroups('mooc_list')
+                ['groups' => ['mooc_list']]
             ),
             JsonResponse::HTTP_OK,
             [],
