@@ -101,7 +101,9 @@ class Zone implements GeoInterface
      *     "jecoute_news_read_dc",
      *     "audience_read",
      *     "audience_segment_read",
-     *     "phoning_campaign_read"
+     *     "phoning_campaign_read",
+     *     "team_read",
+     *     "team_list_read"
      * })
      *
      * @ApiProperty(

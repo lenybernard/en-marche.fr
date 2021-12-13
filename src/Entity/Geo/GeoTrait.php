@@ -40,7 +40,9 @@ trait GeoTrait
      *     "jecoute_news_read_dc",
      *     "audience_read",
      *     "audience_segment_read",
-     *     "phoning_campaign_read"
+     *     "phoning_campaign_read",
+     *     "team_read",
+     *     "team_list_read"
      * })
      */
     private $code;
@@ -60,7 +62,9 @@ trait GeoTrait
      *     "jecoute_news_read_dc",
      *     "audience_read",
      *     "audience_segment_read",
-     *     "phoning_campaign_read"
+     *     "phoning_campaign_read",
+     *     "team_read",
+     *     "team_list_read"
      * })
      */
     private $name;
